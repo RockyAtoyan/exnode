@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/exnode/static/css/main.3813a4a5.css",
+    "main.js": "/exnode/static/js/main.dbca83d6.js",
+    "static/js/787.97c02548.chunk.js": "/exnode/static/js/787.97c02548.chunk.js",
+    "index.html": "/exnode/index.html",
+    "static/media/language-light.svg": "/exnode/static/media/language-light.dea945c64366244670b462f983c8340c.svg",
+    "main.3813a4a5.css.map": "/exnode/static/css/main.3813a4a5.css.map",
+    "main.dbca83d6.js.map": "/exnode/static/js/main.dbca83d6.js.map",
+    "787.97c02548.chunk.js.map": "/exnode/static/js/787.97c02548.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3813a4a5.css",
+    "static/js/main.dbca83d6.js"
+  ]
+}
