@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/exnode/static/css/main.ebab7685.css",
+    "main.css": "/exnode/static/css/main.800cc695.css",
     "main.js": "/exnode/static/js/main.e7962355.js",
     "static/js/787.97c02548.chunk.js": "/exnode/static/js/787.97c02548.chunk.js",
     "index.html": "/exnode/index.html",
-    "main.ebab7685.css.map": "/exnode/static/css/main.ebab7685.css.map",
+    "main.800cc695.css.map": "/exnode/static/css/main.800cc695.css.map",
     "main.e7962355.js.map": "/exnode/static/js/main.e7962355.js.map",
     "787.97c02548.chunk.js.map": "/exnode/static/js/787.97c02548.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ebab7685.css",
+    "static/css/main.800cc695.css",
     "static/js/main.e7962355.js"
   ]
 }
