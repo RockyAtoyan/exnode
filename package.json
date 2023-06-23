@@ -1,6 +1,7 @@
 {
   "name": "exnode",
   "version": "0.1.0",
+  "homepage": "https://rockyatoyan.github.io/exnode",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -10,17 +11,33 @@
     "@types/node": "^16.18.36",
     "@types/react": "^18.2.13",
     "@types/react-dom": "^18.2.6",
+    "axios": "^1.4.0",
+    "formik": "^2.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-double-marquee": "^1.1.0",
+    "react-redux": "^8.1.1",
+    "react-router-dom": "^6.13.0",
     "react-scripts": "5.0.1",
+    "reactjs-popup": "^2.0.5",
+    "redux": "^4.2.1",
+    "redux-thunk": "^2.4.2",
+    "sass": "^1.63.5",
+    "swiper": "^9.4.1",
+    "the-new-css-reset": "^1.9.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
