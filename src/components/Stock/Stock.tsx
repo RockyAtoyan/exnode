@@ -1,3 +1,5 @@
+// @ts-ignore
+
 import cl from './Stock.module.scss'
 import React, {useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -10,6 +12,9 @@ import {
     getStockItems,
     getSummMode
 } from "../../store/selectors";
+import {
+    getOffers,
+} from "../../store/offersReducer"
 import {setFilterMode, setPaidMode, setSummMode} from "../../store/stockReducer";
 import {Notification} from "./Notification";
 import {StockItem} from "./StockItem";
@@ -60,6 +65,13 @@ export const Stock = React.memo(() => {
         .map(item => {
             return <StockItem key={item.id} item={item} />
         })
+
+    useEffect(() => {
+        // @ts-ignore
+        dispatch(getOffers({
+            type: 1,
+        }));
+    }, []);
 
     useEffect(() => {
         if (paidSelect.length === 0) setPaidValue(paidTypes)
