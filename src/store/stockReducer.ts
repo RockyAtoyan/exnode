@@ -1,7 +1,83 @@
+import {ThunkAction} from "redux-thunk";
+import {StateType} from "./store";
 
 
 const IS = {
-    paidTypes:['Сбербанк','Тинькофф','Райффайзен'],
+    stockItems:[
+        {
+            id:'1',
+            name:'JungSangLee',
+            img:'./assets/user.png',
+            active:true,
+            ordersCount:2,
+            ordersProcent:100,
+            likesCount:2,
+            dislikesCount:0,
+            price:185.58,
+            monetType:'rub',
+            limit:{
+                range:[1000,2500],
+                available:150
+            },
+            paidType:'Сбербанк',
+            date:'10'
+        },
+        {
+            id:'2',
+            name:'JungSangLee',
+            img:'./assets/user.png',
+            active:true,
+            ordersCount:2,
+            ordersProcent:100,
+            likesCount:2,
+            dislikesCount:0,
+            price:85.58,
+            monetType:'rub',
+            limit:{
+                range:[1000,2500],
+                available:150
+            },
+            paidType:'Тинькофф',
+            date:'2'
+        },
+        {
+            id:'3',
+            name:'JungSangLee',
+            img:'./assets/user.png',
+            active:true,
+            ordersCount:2,
+            ordersProcent:100,
+            likesCount:2,
+            dislikesCount:0,
+            price:85.58,
+            monetType:'rub',
+            limit:{
+                range:[1000,2500],
+                available:150
+            },
+            paidType:'Тинькофф',
+            date:'3'
+        },
+        {
+            id:'4',
+            name:'JungSangLee',
+            img:'./assets/user.png',
+            active:true,
+            ordersCount:2,
+            ordersProcent:100,
+            likesCount:2,
+            dislikesCount:0,
+            price:85.58,
+            monetType:'rub',
+            limit:{
+                range:[1000,2500],
+                available:150
+            },
+            paidType:'Тинькофф',
+            date:'4'
+        }
+    ] as StockItemType[],
+    paidTypes:['Сбербанк','Тинькофф','Райффайзен','Юmoney','QIWI'],
     filterTypes:['самые новые','лучшая цена'],
     summMode:false,
     paidSelectMode:false,
@@ -16,17 +92,39 @@ export const stockReducer = (state = IS,action:ActionsType) => {
         return {...state,paidSelectMode: action.mode}
     } else if(action.type === 'set-filter-mode'){
         return {...state,filterMode: action.mode}
-    }  else if(action.type === 'set-theme-mode'){
-        return {...state,themeMode: action.mode !== 'dark'}
+    }else if(action.type === 'set-theme-mode'){
+            return {...state,themeMode: action.mode !== 'dark'}
+    }else if(action.type === 'set-stock-items-mode'){
+        return {...state,stockItems: action.items}
     }
     return {...state}
+}
+
+export type StockItemType = {
+    id:string
+    name:string,
+    img:string,
+    active:boolean,
+    ordersCount:number,
+    ordersProcent:number,
+    likesCount:number,
+    dislikesCount:number,
+    price:number,
+    monetType:string,
+    limit:{
+        range:number[],
+        available:number
+    }
+    paidType:string,
+    date:string
 }
 
 type ActionsType =
     SetSummMode |
     SetPaidMode |
     SetFilterMode |
-    SetThemeMode
+    SetThemeMode |
+    SetStockItems
 
 type SetSummMode = {
     type:'set-summ-mode',
@@ -52,3 +150,12 @@ type SetThemeMode = {
     mode:string
 }
 export const setThemeMode = (mode:string):SetThemeMode => ({type:'set-theme-mode',mode})
+
+type SetStockItems = {
+    type:'set-stock-items-mode',
+    items:StockItemType[]
+}
+export const setStockItems = (items:StockItemType[]):SetStockItems => ({type:'set-stock-items-mode',items})
+
+
+type ThunkType = ThunkAction<Promise<void> | void, StateType, any, ActionsType>

@@ -2,14 +2,25 @@ import cl from './Stock.module.scss'
 import {useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getFilterMode, getFilterTypes, getPaidMode, getPaidTypes, getSummMode} from "../../store/selectors";
+import {
+    getFilterMode,
+    getFilterTypes,
+    getPaidMode,
+    getPaidTypes,
+    getStockItems,
+    getSummMode
+} from "../../store/selectors";
 import {setFilterMode, setPaidMode, setSummMode} from "../../store/stockReducer";
+import {Notification} from "./Notification";
+import {StockItem} from "./StockItem";
 
 
 export const Stock = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
+
+    const stockItems = useSelector(getStockItems)
 
     const summ = useRef<HTMLDivElement>(null)
     const paid= useRef<HTMLDivElement>(null)
@@ -25,6 +36,8 @@ export const Stock = () => {
 
     const [viewMode,setViewMode] = useState(false)
 
+    const [notificationMode,setNotificationMode] = useState(false)
+
     const [summValue, setSummValue] = useState('')
     const [summToggle, setSummToggle] = useState(false)
 
@@ -35,6 +48,15 @@ export const Stock = () => {
     const [filterValue, setFilterValue] = useState(0)
 
     const [fiatValue, setFiatValue] = useState('')
+
+    const items = stockItems
+        .filter(item => summValue ? item.price >= +summValue : true)
+        .filter(item => paidValue ? paidValue.includes(item.paidType) : true)
+        .filter(item => paidValue ? paidValue.includes(item.paidType) : true)
+        .sort((a,b) => filterValue === 0 ? +b.date - +a.date : a.price - b.price)
+        .map(item => {
+            return <StockItem key={item.id} item={item} />
+        })
 
     useEffect(() => {
         if (paidSelect.length === 0) setPaidValue(paidTypes)
@@ -50,6 +72,7 @@ export const Stock = () => {
 
 
     return <section id={'stock'}>
+        {notificationMode && <Notification onClose={() => setNotificationMode(false)} />}
         <div className="container">
             <div className={cl.main}>
                 <div className={cl.toggle}>
@@ -108,18 +131,7 @@ export const Stock = () => {
                                 paid.current?.classList.toggle('active')
                             }} value={(paidSelect.length === 0) ? 'Все' : paidSelect.join(', ')}/>
                             <div ref={paid}>
-                                <div className={cl.paid_items}>
-                                    {paidTypes.map((el, idx) => {
-                                        return <div key={idx} className={cl.paid_item} onClick={() => {
-                                            if (paidSelect.includes(el)) setPaidSelect((prevState: any) => [...prevState.slice(0, paidSelect.indexOf(el)), ...prevState.slice(paidSelect.indexOf(el) + 1)])
-                                            else setPaidSelect((prevState: any) => [...prevState, el])
-                                        }}>
-                                            <span style={paidSelect.includes(el) ? {background:'#64cb8c'} : {}}></span>
-                                            <h3>{el}</h3>
-                                        </div>
-                                    })}
 
-                                </div>
                             </div>
                         </div>
                         <div className={cl.filter_input + ' stock_summ'}>
@@ -205,12 +217,12 @@ export const Stock = () => {
                             </div>
                         </div>
                     </div>
-                    <button className={cl.filter_btn}>
+                    <button className={cl.filter_btn} onClick={() => setNotificationMode(prevState => !prevState)}>
                         <img src="./assets/plus.png" alt=""/>
                         <h3>Новое объявление</h3>
                     </button>
                     <div className={cl.mobile_btns}>
-                        <button>
+                        <button onClick={() => setNotificationMode(prevState => !prevState)}>
                             <img src="./assets/plus-solid.svg" alt=""/>
                         </button>
                         <button>
@@ -240,242 +252,7 @@ export const Stock = () => {
                         </div>
                     </div>
                     <div className={cl.items}>
-                        <div className={cl.item}>
-                            <div className={cl.item_info}>
-                                <div className={cl.item_profile}>
-                                    <div className={cl.item_img}>
-                                        <img src="./assets/user.png" alt=""/>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                    <div>
-                                        <div className={cl.item_name}>
-                                            <h2>JungSangLee </h2>
-                                        </div>
-                                        <div className={cl.item_active}>
-                                            <h3>В сети</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={cl.item_stat}>
-                                    <h3>2 ордеров / 100% выполнено</h3>
-                                </div>
-                                <div className={cl.item_btns}>
-                                    <div className={cl.item_likes}>
-                                        <img src="./assets/like.png" alt=""/>
-                                        <h4>2</h4>
-                                    </div>
-                                    <div className={cl.item_dislikes}>
-                                        <img src="./assets/dislike.png" alt=""/>
-                                        <h4>0</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={cl.item_price}>
-                                <h2>85.58</h2>
-                                <h3>rub</h3>
-                            </div>
-                            <div className={cl.item_limit}>
-                                <div>
-                                    <h2>Доступно</h2>
-                                    <h2>
-                                        <span>150.00</span>
-                                        <span>USDT</span>
-                                    </h2>
-                                </div>
-                                <div>
-                                    <h2>Лимит</h2>
-                                    <h2>
-                                        <span>1,000.00 - 2,500.00</span>
-                                        <span>RUB</span>
-                                    </h2>
-                                    <span></span>
-                                </div>
-                            </div>
-                            <div className={cl.item_paid}>
-                                <button>Тинькофф</button>
-                            </div>
-                            <div className={cl.item_btn}>
-                                <button>Продать USDT</button>
-                            </div>
-                        </div>
-                        <div className={cl.item}>
-                            <div className={cl.item_info}>
-                                <div className={cl.item_profile}>
-                                    <div className={cl.item_img}>
-                                        <img src="./assets/user.png" alt=""/>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                    <div>
-                                        <div className={cl.item_name}>
-                                            <h2>JungSangLee </h2>
-                                        </div>
-                                        <div className={cl.item_active}>
-                                            <h3>В сети</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={cl.item_stat}>
-                                    <h3>2 ордеров / 100% выполнено</h3>
-                                </div>
-                                <div className={cl.item_btns}>
-                                    <div className={cl.item_likes}>
-                                        <img src="./assets/like.png" alt=""/>
-                                        <h4>2</h4>
-                                    </div>
-                                    <div className={cl.item_dislikes}>
-                                        <img src="./assets/dislike.png" alt=""/>
-                                        <h4>0</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={cl.item_price}>
-                                <h2>85.58</h2>
-                                <h3>rub</h3>
-                            </div>
-                            <div className={cl.item_limit}>
-                                <div>
-                                    <h2>Доступно</h2>
-                                    <h2>
-                                        <span>150.00</span>
-                                        <span>USDT</span>
-                                    </h2>
-                                </div>
-                                <div>
-                                    <h2>Лимит</h2>
-                                    <h2>
-                                        <span>1,000.00 - 2,500.00</span>
-                                        <span>RUB</span>
-                                    </h2>
-                                    <span></span>
-                                </div>
-                            </div>
-                            <div className={cl.item_paid}>
-                                <button>Тинькофф</button>
-                            </div>
-                            <div className={cl.item_btn}>
-                                <button>Продать USDT</button>
-                            </div>
-                        </div>
-                        <div className={cl.item}>
-                            <div className={cl.item_info}>
-                                <div className={cl.item_profile}>
-                                    <div className={cl.item_img}>
-                                        <img src="./assets/user.png" alt=""/>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                    <div>
-                                        <div className={cl.item_name}>
-                                            <h2>JungSangLee </h2>
-                                        </div>
-                                        <div className={cl.item_active}>
-                                            <h3>В сети</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={cl.item_stat}>
-                                    <h3>2 ордеров / 100% выполнено</h3>
-                                </div>
-                                <div className={cl.item_btns}>
-                                    <div className={cl.item_likes}>
-                                        <img src="./assets/like.png" alt=""/>
-                                        <h4>2</h4>
-                                    </div>
-                                    <div className={cl.item_dislikes}>
-                                        <img src="./assets/dislike.png" alt=""/>
-                                        <h4>0</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={cl.item_price}>
-                                <h2>85.58</h2>
-                                <h3>rub</h3>
-                            </div>
-                            <div className={cl.item_limit}>
-                                <div>
-                                    <h2>Доступно</h2>
-                                    <h2>
-                                        <span>150.00</span>
-                                        <span>USDT</span>
-                                    </h2>
-                                </div>
-                                <div>
-                                    <h2>Лимит</h2>
-                                    <h2>
-                                        <span>1,000.00 - 2,500.00</span>
-                                        <span>RUB</span>
-                                    </h2>
-                                    <span></span>
-                                </div>
-                            </div>
-                            <div className={cl.item_paid}>
-                                <button>Тинькофф</button>
-                            </div>
-                            <div className={cl.item_btn}>
-                                <button>Продать USDT</button>
-                            </div>
-                        </div>
-                        <div className={cl.item}>
-                            <div className={cl.item_info}>
-                                <div className={cl.item_profile}>
-                                    <div className={cl.item_img}>
-                                        <img src="./assets/user.png" alt=""/>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                    <div>
-                                        <div className={cl.item_name}>
-                                            <h2>JungSangLee </h2>
-                                        </div>
-                                        <div className={cl.item_active}>
-                                            <h3>В сети</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={cl.item_stat}>
-                                    <h3>2 ордеров / 100% выполнено</h3>
-                                </div>
-                                <div className={cl.item_btns}>
-                                    <div className={cl.item_likes}>
-                                        <img src="./assets/like.png" alt=""/>
-                                        <h4>2</h4>
-                                    </div>
-                                    <div className={cl.item_dislikes}>
-                                        <img src="./assets/dislike.png" alt=""/>
-                                        <h4>0</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={cl.item_price}>
-                                <h2>85.58</h2>
-                                <h3>rub</h3>
-                            </div>
-                            <div className={cl.item_limit}>
-                                <div>
-                                    <h2>Доступно</h2>
-                                    <h2>
-                                        <span>150.00</span>
-                                        <span>USDT</span>
-                                    </h2>
-                                </div>
-                                <div>
-                                    <h2>Лимит</h2>
-                                    <h2>
-                                        <span>1,000.00 - 2,500.00</span>
-                                        <span>RUB</span>
-                                    </h2>
-                                    <span></span>
-                                </div>
-                            </div>
-                            <div className={cl.item_paid}>
-                                <button>Тинькофф</button>
-                            </div>
-                            <div className={cl.item_btn}>
-                                <button>Продать USDT</button>
-                            </div>
-                        </div>
+                        {items}
                     </div>
                 </div>
             </div>

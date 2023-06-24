@@ -7,3 +7,4 @@ export const getSummMode = (state:StateType) => state.stock.summMode
 export const getPaidMode = (state:StateType) => state.stock.paidSelectMode
 export const getFilterMode = (state:StateType) => state.stock.filterMode
 export const getThemeMode = (state:StateType) => state.stock.themeMode
+export const getStockItems = (state:StateType) => state.stock.stockItems
