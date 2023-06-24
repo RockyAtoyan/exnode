@@ -45,7 +45,102 @@ const App = () => {
                 <Header/>
                     <main>
                         <Routes>
-
+                            <Route path={'/buy/usdt'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/buy/btc'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/sell/btc'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/sell/usdt'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/buy/usdt/chat'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/buy/btc/chat'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/sell/btc/chat'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/sell/usdt/chat'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
 
                         <Route path={'/profile'} element={<Profile />} />
 
