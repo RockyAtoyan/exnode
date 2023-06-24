@@ -36,8 +36,8 @@ export const Stock = React.memo(() => {
     const filterTypes = useSelector(getFilterTypes)
 
 
-    const [toggle, setToggle] = useState('buy')
-    const [moneyToggle, setMoneyToggle] = useState('usdt')
+    const [toggle, setToggle] = useState(location.pathname === '/' ? 'buy' : (location.pathname.split('/')[1] === 'buy' ? 'buy' : 'sell'))
+    const [moneyToggle, setMoneyToggle] = useState(location.pathname === '/' ? 'usdt' : (location.pathname.split('/')[2] === 'usdt' ? 'usdt' : 'btc'))
 
     const [viewMode,setViewMode] = useState(false)
 

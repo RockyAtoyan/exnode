@@ -18,11 +18,6 @@ import {Profile} from "./components/Profile/Profile";
 
 const App = () => {
     const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        navigate('/buy/usdt')
-    },[])
 
     return (
             <div className="wrapper" onClick={(event) => {
@@ -44,7 +39,19 @@ const App = () => {
             }}>
                 <Header/>
                     <main>
-                        <Routes>
+                <Routes>
+                            <Route path={'/'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
                             <Route path={'/buy/usdt'} element={
                                 <>
                                     <Intro/>

@@ -8,9 +8,9 @@ export const Intro = () => {
         <div className={cl.main}>
             <div className={cl.bg + ' ibg'}>
             </div>
-            <div className={cl.content} style={{backgroundImage:`url("./assets/${location.pathname.split('/')[location.pathname.split('/').length - 1] === 'btc' ? 'btc' : 'bg'}.png")`}}>
+            <div className={cl.content} style={{backgroundImage:`url("./assets/${location.pathname.split('/')[2] === 'btc' ? 'btc' : 'bg'}.png")`}}>
                 <h1>Совершайте P2P-сделки на ваших условиях</h1>
-                <h2>Выгодный курс покупки и продажи {location.pathname.split('/')[location.pathname.split('/').length - 1] === 'btc' ? 'BTC' : 'USDT'} без комиссии на Exnode</h2>
+                <h2>Выгодный курс покупки и продажи {location.pathname.split('/')[2] === 'btc' ? 'BTC' : 'USDT'} без комиссии на Exnode</h2>
             </div>
             <div className={cl.actions}>
                 <h3>Получите 50 ₽ за каждый завершенный ордер</h3>
