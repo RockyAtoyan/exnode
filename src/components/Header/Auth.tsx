@@ -99,6 +99,7 @@ export const Auth:FC<{on:any}> = ({on}) => {
                         <Form className={cl.form}>
                             <div className={cl.item}>
                                 <Field name="email"
+                                       placeholder={'Электронная почта'}
                                        validate={validateEmail} />
                                 {errors.email && touched.email && <div className={cl.error}>{errors.email}</div>}
                             </div>
@@ -106,6 +107,7 @@ export const Auth:FC<{on:any}> = ({on}) => {
                             <div className={cl.item}>
                                 <div className={cl.password}>
                                     <Field name="password"
+                                           placeholder={'Пароль'}
                                            type={passwordMode ? 'text' : 'password'} validate={validatePassword} />
                                     <span onClick={() => setPasswordMode(prev => !prev)}>
                                         <img src="./assets/eye-light.svg" alt=""/>
@@ -154,6 +156,7 @@ export const Auth:FC<{on:any}> = ({on}) => {
                             <Form className={cl.form}>
                                 <div className={cl.item}>
                                     <Field name="email"
+                                           placeholder={'Электронная почта'}
                                            validate={validateEmail} />
                                     {errors.email && touched.email && <div className={cl.error}>{errors.email}</div>}
                                 </div>
@@ -162,6 +165,7 @@ export const Auth:FC<{on:any}> = ({on}) => {
                                     <div className={cl.password}>
                                         <Field name="password"
                                                value={passwordValue}
+                                               placeholder={'Придумайте пароль'}
                                                onChange={(event:any) => {
                                                    setPasswordValue(event?.currentTarget.value)
                                                    signValidatePassword(event?.currentTarget.value,(value:any) => setValidatePasswordValue(value))
@@ -179,6 +183,7 @@ export const Auth:FC<{on:any}> = ({on}) => {
                                 <div className={cl.item  + ' ' + cl.repeatPassword}>
                                     <div className={cl.password}>
                                         <Field name="repeatPassword"
+                                               placeholder={'Повторите пароль'}
                                                value={repeatPasswordValue}
                                                onChange={(event:any) => {
                                                    setRepeatPasswordValue(event?.currentTarget.value)
