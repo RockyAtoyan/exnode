@@ -13,16 +13,10 @@ export const Notification: FC<{ onClose: any }> = ({onClose}) => {
 
     const [emailMode, setEmailMode] = useState(false)
 
-    const [activeValue, setActiveValue] = useState<any>(<>
-        <img src="" alt=""/>
-        <h2>USDTTRC</h2>
-    </>)
+    const [activeValue, setActiveValue] = useState<any>('USDTTRC')
     const [activeMode, setActiveMode] = useState(false)
 
-    const [fiatValue, setFiatValue] = useState<any>(<>
-        <img src="" alt=""/>
-        <h2>RUB</h2>
-    </>)
+    const [fiatValue, setFiatValue] = useState<any>('RUB')
     const [fiatMode, setFiatMode] = useState(false)
 
     const [ownPrice, setOwnPrice] = useState(84.94)
@@ -36,6 +30,8 @@ export const Notification: FC<{ onClose: any }> = ({onClose}) => {
     const [paidValue, setPaidValue] = useState<any>([])
     const [paidSelect, setPaidSelect] = useState<any>([])
     const [paidSelectMode, setPaidSelectMode] = useState(false)
+
+    const [requisitesValue, setRequisitesValue] = useState('')
     useEffect(() => {
         setPaidValue(paidSelect)
     }, [paidSelect])
@@ -75,13 +71,11 @@ export const Notification: FC<{ onClose: any }> = ({onClose}) => {
                             <div onClick={() => {
                                 setActiveValue('USDTTRC')
                             }}>
-                                <img src="" alt=""/>
                                 <h2>USDTTRC</h2>
                             </div>
                             <div onClick={() => {
                                 setActiveValue('BTC')
                             }}>
-                                <img src="" alt=""/>
                                 <h2>BTC</h2>
                             </div>
                         </div>}
@@ -93,13 +87,9 @@ export const Notification: FC<{ onClose: any }> = ({onClose}) => {
                         </div>
                         {fiatMode && <div className={cl.variants}>
                             <div onClick={() => {
-                                setFiatValue(<>
-                                    <img src="" alt=""/>
-                                    <h2>RUB</h2>
-                                </>)
+                                setFiatValue('RUB')
                             }}>
-                                <img src="" alt=""/>
-                                <h2>RUB</h2>
+                                RUB
                             </div>
                         </div>}
                     </div>
@@ -197,6 +187,14 @@ export const Notification: FC<{ onClose: any }> = ({onClose}) => {
                         </div>
 
                     </div>
+                    <div className={cl.item}>
+                        <h3>Ваши реквизиты</h3>
+                        <div className={cl.first_input}>
+                            <input className={cl.input} value={requisitesValue} onChange={(event) => {
+                                setRequisitesValue(event.currentTarget.value)
+                            }}/>
+                        </div>
+                    </div>
                 </form>
                 <div className={cl.paid}>
                     <h3>Способ оплаты</h3>
@@ -218,7 +216,19 @@ export const Notification: FC<{ onClose: any }> = ({onClose}) => {
                     </div>
                     <h3>Срок оплаты — 15 минут</h3>
                 </div>
-                <button className={cl.next} disabled={paidValue.length < 1} onClick={() => setSecondMode(true)}>Далее</button>
+                <button className={cl.next} disabled={!activeValue || !fiatValue || !availableValue || !minValue || !maxValue || !requisitesValue || paidValue.length < 1} onClick={() => {
+                    const payload = {
+                        type:activeValue.toLowerCase(),
+                        currency:fiatValue.toLowerCase(),
+                        payment_method:paidValue,
+                        price:priceMode ? ownPrice.toFixed(2) : (+ownPrice * (priceProcent / 100)).toFixed(2),
+                        limit:availableValue,
+                        limit_start:minValue,
+                        limit_end:maxValue,
+                        requisites:requisitesValue
+                    }
+                    console.log(payload)
+                }}>Далее</button>
             </div>}
         </div>
     </div>
