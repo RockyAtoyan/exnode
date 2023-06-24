@@ -195,7 +195,7 @@ export const Auth:FC<{on:any}> = ({on}) => {
                                 </div>
 
                                 <div className={cl.item + ' ' + cl.checkbox_item}>
-                                    <div>
+                                    <div className={cl.copy}>
                                         <div className={cl.checkbox_wrapper} onClick={() => setCheckMode(prev => !prev)}>
                                             <div className={cl.checkbox}>
                                                 {checkMode && <img src="./assets/check.svg" alt=""/>}
