@@ -1,5 +1,5 @@
 import cl from './Stock.module.scss'
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -15,10 +15,12 @@ import {Notification} from "./Notification";
 import {StockItem} from "./StockItem";
 
 
-export const Stock = () => {
+export const Stock = React.memo(() => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const location = useLocation()
+
+
+
 
     const stockItems = useSelector(getStockItems)
 
@@ -71,7 +73,8 @@ export const Stock = () => {
 
 
 
-    return <section id={'stock'}>
+    return <>
+        <section id={'stock'}>
         {notificationMode && <Notification onClose={() => setNotificationMode(false)} />}
         <div className="container">
             <div className={cl.main}>
@@ -259,4 +262,5 @@ export const Stock = () => {
         </div>
 
     </section>
-}
+    </>
+})

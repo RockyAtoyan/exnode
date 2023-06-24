@@ -224,6 +224,6 @@ export const Notification: FC<{ onClose: any }> = ({onClose}) => {
     </div>
 }
 
-function checkInput(str: string) {
+export function checkInput(str: string) {
     return new RegExp(/(^[0-9]+$)|(^$)/).test(str)
 }
