@@ -16,7 +16,11 @@
 }
 @media screen and (max-width: 500px){
   .chat{
-    width: 300px;
+    width: 320px;
+    height: 90%;
+  }
+  .messages{
+    height: 100% !important;
   }
 }
 .info{
