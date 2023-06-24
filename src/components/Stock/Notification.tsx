@@ -218,8 +218,8 @@ export const Notification: FC<{ onClose: any }> = ({onClose}) => {
                 </div>
                 <button className={cl.next} disabled={!activeValue || !fiatValue || !availableValue || !minValue || !maxValue || !requisitesValue || paidValue.length < 1} onClick={() => {
                     const payload = {
-                        type:activeValue.toLowerCase(),
-                        currency:fiatValue.toLowerCase(),
+                        type:mainMode ? 1 : 2,
+                        currency:activeValue,
                         payment_method:paidValue,
                         price:priceMode ? ownPrice.toFixed(2) : (+ownPrice * (priceProcent / 100)).toFixed(2),
                         limit:availableValue,

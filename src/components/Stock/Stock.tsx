@@ -14,6 +14,7 @@ import {setFilterMode, setPaidMode, setSummMode} from "../../store/stockReducer"
 import {Notification} from "./Notification";
 import {StockItem} from "./StockItem";
 import {Chat} from "./Chat";
+import {getOffers} from './../../store/offersReducer'
 
 
 export const Stock = React.memo(() => {
@@ -60,6 +61,17 @@ export const Stock = React.memo(() => {
         .map(item => {
             return <StockItem key={item.id} item={item} />
         })
+
+    useEffect(() => {
+        // @ts-ignore
+        dispatch(getOffers({
+            type: toggle ? 2 : 1,
+            currency:moneyToggle ? 'usdt' : 'buy',
+            limit:summValue,
+            payment_method:paidValue,
+            sort:filterValue === 0 ? 1 : 2,
+        }));
+    }, []);
 
     useEffect(() => {
         if (paidSelect.length === 0) setPaidValue(paidTypes)
