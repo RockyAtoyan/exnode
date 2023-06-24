@@ -216,6 +216,7 @@ export const Notification: FC<{ onClose: any }> = ({onClose}) => {
                     </div>
                     <h3>Срок оплаты — 15 минут</h3>
                 </div>
+                <button className={cl.prev} onClick={() => setSecondMode(false)}>Назад</button>
                 <button className={cl.next} disabled={!activeValue || !fiatValue || !availableValue || !minValue || !maxValue || !requisitesValue || paidValue.length < 1} onClick={() => {
                     const payload = {
                         type:mainMode ? 1 : 2,

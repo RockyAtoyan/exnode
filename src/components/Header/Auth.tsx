@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import {useSelector} from "react-redux";
 import {getThemeMode} from "../../store/selectors";
 
-function validateEmail(value:any ) {
+export function validateEmail(value:any ) {
     let error;
     if (!value) {
         error = 'Это обязательное поле';
@@ -16,7 +16,7 @@ function validateEmail(value:any ) {
     return error;
 }
 
-function validatePassword(value:any) {
+export function validatePassword(value:any) {
     let error;
     if (!value) {
         error = 'Это обязательное поле';
@@ -24,7 +24,7 @@ function validatePassword(value:any) {
     }
 }
 
-function signValidatePassword(value:any,func:any) {
+export function signValidatePassword(value:any,func:any) {
     let error : string | boolean = false;
     if (!value) {
         error = 'Это обязательное поле';

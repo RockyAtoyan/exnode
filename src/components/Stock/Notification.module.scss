@@ -300,6 +300,12 @@
 }
 
 .second{
+  position: relative;
+  .prev{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
   .paid{
     padding: 30px;
     display: flex;

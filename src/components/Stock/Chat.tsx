@@ -20,7 +20,7 @@ export const Chat = () => {
                 console.log(location.pathname.split('/').slice(1,location.pathname.split('/').length - 1).join('/'))
                 setChatMode(false)
                 localStorage.removeItem('exnode-order-chat')
-                if(location.pathname.split('/').slice(-1)[0] === 'chat') navigate(location.pathname.split('/').slice(1,location.pathname.split('/').length - 1).join('/'))
+                if(location.pathname.split('/').slice(-1)[0] === 'chat') navigate('/' + location.pathname.split('/').slice(1,location.pathname.split('/').length - 1).join('/'))
             }}>
                 <img src="./assets/plus.svg" alt=""/>
             </button>

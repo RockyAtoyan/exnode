@@ -1,3 +1,5 @@
+// @ts-ignore
+
 import cl from './Stock.module.scss'
 import React, {useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -10,19 +12,18 @@ import {
     getStockItems,
     getSummMode
 } from "../../store/selectors";
+
 import {setFilterMode, setPaidMode, setSummMode} from "../../store/stockReducer";
 import {Notification} from "./Notification";
 import {StockItem} from "./StockItem";
 import {Chat} from "./Chat";
-import {getOffers} from './../../store/offersReducer'
+import {getOffers,} from "../../store/offersReducer"
 
 
 export const Stock = React.memo(() => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
-
-
+    const location = useLocation()
 
     const stockItems = useSelector(getStockItems)
 
@@ -55,9 +56,8 @@ export const Stock = React.memo(() => {
 
     const items = stockItems
         .filter(item => summValue ? item.price >= +summValue : true)
-        .filter(item => paidValue ? paidValue.includes(item.paidType) : true)
-        .filter(item => paidValue ? paidValue.includes(item.paidType) : true)
-        .sort((a,b) => filterValue === 0 ? +b.date - +a.date : a.price - b.price)
+        .filter(item => paidValue ? paidValue.includes(item.payment_method) : true)
+        .filter(item => paidValue ? paidValue.includes(item.payment_method) : true)
         .map(item => {
             return <StockItem key={item.id} item={item} />
         })
@@ -69,7 +69,7 @@ export const Stock = React.memo(() => {
             currency:moneyToggle ? 'usdt' : 'buy',
             limit:summValue,
             payment_method:paidValue,
-            sort:filterValue === 0 ? 1 : 2,
+            sort:filterValue === 0 ? 'timestamp' : 'price',
         }));
     }, []);
 
@@ -79,7 +79,7 @@ export const Stock = React.memo(() => {
     }, [paidSelect])
 
     useEffect(() => {
-        navigate(toggle + '/' + moneyToggle)
+        navigate('/' + toggle + '/' + moneyToggle)
     }, [toggle,moneyToggle])
 
 

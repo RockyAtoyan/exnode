@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import {HashRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Route, Routes, useNavigate} from "react-router-dom";
 import {Header} from "./components/Header/Header";
 import {Intro} from "./components/Intro/Intro";
 import {Stock} from "./components/Stock/Stock";
@@ -18,10 +18,13 @@ import {Profile} from "./components/Profile/Profile";
 
 const App = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
+    useEffect(() => {
+        navigate('/buy/usdt')
+    },[])
 
     return (
-        <HashRouter>
             <div className="wrapper" onClick={(event) => {
 
                 // @ts-ignore
@@ -41,17 +44,103 @@ const App = () => {
             }}>
                 <Header/>
                     <main>
-                        <>
-                            <Intro/>
-                            <Stock/>
-                            <Work />
-                            <Features />
-                            <Principles />
-                            <Links />
-                            <Ref />
-                            <Ques />
-                        </>
                         <Routes>
+                            <Route path={'/buy/usdt'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/buy/btc'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/sell/btc'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/sell/usdt'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/buy/usdt/chat'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/buy/btc/chat'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/sell/btc/chat'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/sell/usdt/chat'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
 
                         <Route path={'/profile'} element={<Profile />} />
 
@@ -59,7 +148,6 @@ const App = () => {
                      </main>
                 <Footer />
             </div>
-        </HashRouter>
     );
 }
 

@@ -6,17 +6,20 @@ import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 import {store} from "./store/store";
 import ThemeProvider from "./components/Theme/ThemeProvider";
+import {HashRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById('exnode') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-      <Provider store={store}>
-          <ThemeProvider>
-              <App />
-          </ThemeProvider>
-      </Provider>
+      <HashRouter>
+          <Provider store={store}>
+              <ThemeProvider>
+                  <App />
+              </ThemeProvider>
+          </Provider>
+      </HashRouter>
   </React.StrictMode>
 );
 

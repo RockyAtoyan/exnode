@@ -1,9 +1,10 @@
 
 
 const IS = {
-    image:'',
-    name:'',
-    email:'',
-    balance:'',
-    
+    profile:{}
+}
+
+
+export const profileReducer = (state = IS,action) => {
+    return {...state}
 }

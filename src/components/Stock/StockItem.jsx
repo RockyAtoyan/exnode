@@ -5,7 +5,7 @@ import {checkInput} from "./Notification";
 import {useLocation, useNavigate} from "react-router-dom";
 
 
-export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
+export const StockItem = ({item}) => {
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -18,24 +18,26 @@ export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
 
     const [paidMode,setPaidMode] = useState(false)
 
-    const [paidSelect, setPaidSelect] = useState<any>([])
+    const [paidSelect, setPaidSelect] = useState([])
 
     return <>
         {sellMode ? <div className={cl.sell}>
             <div className={cl.sell_main}>
                 <div className={cl.item_info}>
                     <div className={cl.item_profile}>
-                        <div className={cl.item_img}>
-                            <img src={item.img} alt=""/>
-                        </div>
+                        {/*<div className={cl.item_img}>*/}
+                        {/*    <img src={item.img} alt=""/>*/}
+                        {/*    <span></span>*/}
+                        {/*    <span></span>*/}
+                        {/*</div>*/}
                         <div>
                             <div className={cl.item_name}>
-                                <h2>{item.name}</h2>
+                                <h2>{item.user.login}</h2>
                             </div>
                         </div>
                     </div>
                     <div className={cl.item_stat}>
-                        <h3>{item.ordersCount} ордеров / {item.ordersProcent}% выполнено</h3>
+                        <h3>{item.percent_success}% ордеров выполнено</h3>
                     </div>
                 </div>
                 <div className={cl.sell_content}>
@@ -43,7 +45,7 @@ export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
                         <h2>Цена</h2>
                         <div>
                             <h2>{item.price}</h2>
-                            <h3>{item.monetType}</h3>
+                            <h3>{item.currency}</h3>
                         </div>
                     </div>
                     <div className={cl.sell_item}>
@@ -55,7 +57,7 @@ export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
                     <div>
                         <h2>Доступно</h2>
                         <div>
-                            <h2>{item.limit.available}</h2>
+                            <h2>{item.limit}</h2>
                             <h3>USDT</h3>
                         </div>
                     </div>
@@ -65,7 +67,7 @@ export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
                         </h2>
                         <div>
                             <button>
-                                {item.paidType}
+                                {item.payment_method}
                             </button>
                         </div>
                     </div>
@@ -100,11 +102,11 @@ export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
                 <div className={cl.sell_input}>
                     <button>Выберете способ оплаты</button>
                     <div className={cl.paid_item + ' ' + cl.sell_btn} onClick={() => {
-                        if (paidSelect.includes(item.paidType)) setPaidSelect((prevState: any) => [...prevState.slice(0, paidSelect.indexOf(item.paidType)), ...prevState.slice(paidSelect.indexOf(item.paidType) + 1)])
-                        else setPaidSelect((prevState: any) => [...prevState, item.paidType])
+                        if (paidSelect.includes(item.payment_method)) setPaidSelect((prevState) => [...prevState.slice(0, paidSelect.indexOf(item.payment_method)), ...prevState.slice(paidSelect.indexOf(item.payment_method) + 1)])
+                        else setPaidSelect((prevState) => [...prevState, item.payment_method])
                     }}>
-                        <span style={paidSelect.includes(item.paidType) ? {background: '#64cb8c'} : {}}></span>
-                        <h3>{item.paidType}</h3>
+                        <span style={paidSelect.includes(item.payment_method) ? {background: '#64cb8c'} : {}}></span>
+                        <h3>{item.payment_method}</h3>
                     </div>
                 </div>
                 <div className={cl.sell_info}>
@@ -121,7 +123,7 @@ export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
                     <div className={cl.sell_actions}>
                         <button onClick={() => setSellMode(false)}>Отменить</button>
                         <button disabled={!inputValue || paidSelect.length === 0} onClick={() => {
-                             if(!(location.pathname.split('/').slice(-1)[0] === 'chat')) navigate(location.pathname.slice(1) + '/chat')
+                             if(!(location.pathname.split('/').slice(-1)[0] === 'chat')) navigate('/' + location.pathname.slice(1) + '/chat')
                             if(!localStorage.getItem('exnode-order-chat')) localStorage.setItem('exnode-order-chat','true')
                         }}>Купить USDT</button>
                     </div>
@@ -132,43 +134,33 @@ export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
             <div className={cl.item}>
                 <div className={cl.item_info}>
                     <div className={cl.item_profile}>
-                        <div className={cl.item_img}>
-                            <img src={item.img} alt=""/>
-                            <span></span>
-                            <span></span>
-                        </div>
+                        {/*<div className={cl.item_img}>*/}
+                        {/*    <img src={item.img} alt=""/>*/}
+                        {/*    <span></span>*/}
+                        {/*    <span></span>*/}
+                        {/*</div>*/}
                         <div>
                             <div className={cl.item_name}>
-                                <h2>{item.name}</h2>
+                                <h2>{item.user.login}</h2>
                             </div>
                             <div className={cl.item_active}>
-                                <h3>{!item.active && 'Не'} {!item.active ? 'в' : 'В'} сети</h3>
+                                <h3>{!item.user.is_online && 'Не'} {!item.user.is_online  ? 'в' : 'В'} сети</h3>
                             </div>
                         </div>
                     </div>
                     <div className={cl.item_stat}>
-                        <h3>{item.ordersCount} ордеров / {item.ordersProcent}% выполнено</h3>
-                    </div>
-                    <div className={cl.item_btns}>
-                        <div className={cl.item_likes}>
-                            <img src="./assets/like.png" alt=""/>
-                            <h4>{item.likesCount}</h4>
-                        </div>
-                        <div className={cl.item_dislikes}>
-                            <img src="./assets/dislike.png" alt=""/>
-                            <h4>{item.dislikesCount}</h4>
-                        </div>
+                        <h3>{item.percent_success}% ордеров выполнено</h3>
                     </div>
                 </div>
                 <div className={cl.item_price}>
                     <h2>{item.price}</h2>
-                    <h3>{item.monetType}</h3>
+                    <h3>{item.currency}</h3>
                 </div>
                 <div className={cl.item_limit}>
                     <div>
                         <h2>Доступно</h2>
                         <h2>
-                            <span>{item.limit.available}</span>
+                            <span>{item.limit}</span>
                             <span>USDT</span>
                         </h2>
                     </div>
@@ -176,7 +168,7 @@ export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
                         <h2>Лимит</h2>
                         <h2>
                     <span>
-                        {item.limit.range[0]}.00 - {item.limit.range[1]}.00
+                        {item.limit_start}.00 - {item.limit_end}.00
                     </span>
                             <span>RUB</span>
                         </h2>
@@ -185,7 +177,7 @@ export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
                 </div>
                 <div className={cl.item_paid}>
                     <button>
-                        {item.paidType}
+                        {item.payment_method}
                     </button>
                 </div>
                 <div className={cl.item_btn} onClick={() => setSellMode(true)}>
