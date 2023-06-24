@@ -13,6 +13,7 @@ import {
 import {setFilterMode, setPaidMode, setSummMode} from "../../store/stockReducer";
 import {Notification} from "./Notification";
 import {StockItem} from "./StockItem";
+import {Chat} from "./Chat";
 
 
 export const Stock = React.memo(() => {
@@ -74,6 +75,7 @@ export const Stock = React.memo(() => {
 
 
     return <>
+        <Chat />
         <section id={'stock'}>
         {notificationMode && <Notification onClose={() => setNotificationMode(false)} />}
         <div className="container">

@@ -2,11 +2,12 @@ import cl from "./Stock.module.scss";
 import {FC, useState} from "react";
 import {StockItemType} from "../../store/stockReducer";
 import {checkInput} from "./Notification";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
     const navigate = useNavigate()
+    const location = useLocation()
 
     const [sellMode,setSellMode] = useState(false)
 
@@ -120,7 +121,8 @@ export const StockItem:FC<{ item: StockItemType }> = ({item}) => {
                     <div className={cl.sell_actions}>
                         <button onClick={() => setSellMode(false)}>Отменить</button>
                         <button disabled={!inputValue || paidSelect.length === 0} onClick={() => {
-                            navigate('chat')
+                             if(!(location.pathname.split('/').slice(-1)[0] === 'chat')) navigate(location.pathname.slice(1) + '/chat')
+                            if(!localStorage.getItem('exnode-order-chat')) localStorage.setItem('exnode-order-chat','true')
                         }}>Купить USDT</button>
                     </div>
                 </div>
