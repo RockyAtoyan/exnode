@@ -1,4 +1,4 @@
-const host = 'http://exnodeyii2.api';
+const host = 'https://89.108.81.250';
 
 export async function api(url, method, body = false, queryObject = null) {
     let query = '';

@@ -3,8 +3,10 @@ import {Field, Form, Formik} from "formik";
 import {FC, useState} from "react";
 import { generate } from '@wcj/generate-password';
 import { ToastContainer, toast } from 'react-toastify';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getThemeMode} from "../../store/selectors";
+import { log } from 'console';
+import { login, signIn } from '../../store/profileReduces';
 
 export function validateEmail(value:any ) {
     let error;
@@ -49,14 +51,17 @@ export function signValidatePassword(value:any,func:any) {
     func(error)
 }
 
-export const Auth:FC<{on:any}> = ({on}) => {
+export const Auth: FC<{ on: any }> = ({ on }) => {
+    const dispatch:any = useDispatch()
 
     const theme = useSelector(getThemeMode)
 
     const [regMode,setRegMode] = useState(false)
 
     const [passwordMode,setPasswordMode] = useState(false)
-    const [repeatPasswordMode,setRepeatPasswordMode] = useState(false)
+    const [repeatPasswordMode, setRepeatPasswordMode] = useState(false)
+    
+    const [loginValue,setLoginValue] = useState(false)
 
     const [checkMode,setCheckMode] = useState(false)
 
@@ -89,13 +94,14 @@ export const Auth:FC<{on:any}> = ({on}) => {
                     </h3>
                 </div>
                 <Formik
-                    initialValues={{ email: '',password:'',rememberMe:false }}
+                    initialValues={{ email: '',password:''}}
                     onSubmit={(values, actions) => {
                         console.log(values)
+                        dispatch(login(values));
                         actions.setSubmitting(false);
                     }}
                 >
-                    {({ errors, touched, isValidating }) => (
+                    {({ errors, touched, isValidating,resetForm}) => (
                         <Form className={cl.form}>
                             <div className={cl.item}>
                                 <Field name="email"
@@ -117,15 +123,6 @@ export const Auth:FC<{on:any}> = ({on}) => {
                             </div>
 
                             <div className={cl.item + ' ' + cl.checkbox_item}>
-                                <div>
-                                    <div className={cl.checkbox_wrapper} onClick={() => setCheckMode(prev => !prev)}>
-                                        <div className={cl.checkbox}>
-                                            {checkMode && <img src="./assets/check.svg" alt=""/>}
-                                        </div>
-                                        <Field name="rememberMe" type={'checkbox'} />
-                                    </div>
-                                    <h3>Запомнить меня</h3>
-                                </div>
                                 <a href="./">Забыли пароль</a>
                             </div>
 
@@ -133,7 +130,8 @@ export const Auth:FC<{on:any}> = ({on}) => {
                         </Form>
                     )}
                 </Formik>
-                <button className={cl.sign} type="button" onClick={() => setRegMode(prev => !prev)}>
+                <button className={cl.sign} type="button" onClick={() =>{
+                     setRegMode(prev => !prev)}}>
                     Зарегистрироваться
                 </button>
             </> :
@@ -142,23 +140,44 @@ export const Auth:FC<{on:any}> = ({on}) => {
                         <h2>Регистрация</h2>
                     </div>
                     <Formik
-                        initialValues={{ email:'',password:'',repeatPassword:''}}
+                        initialValues={{empty:'', login:'',mail:'',password:''}}
                         onSubmit={(values, actions) => {
-                            if(passwordValue && repeatPasswordValue && passwordValue === repeatPasswordValue) console.log({...values,password:passwordValue,repeatPassword:repeatPasswordValue})
+                            if (passwordValue) {
+                                console.log({
+                                    login: values.login,
+                                    email: values.mail,
+                                    password:passwordValue
+                                })
+                                dispatch(signIn({
+                                    login: values.login,
+                                    email: values.mail,
+                                    password:values.password
+                                }))
+                            }
                             else {
                                 signValidatePassword(passwordValue,(value:any) => setValidatePasswordValue(value))
-                                signValidatePassword(repeatPasswordValue,(value:any) => setRepeatValidatePasswordValue(value))
-                            }
+                              }
                             actions.setSubmitting(false);
                         }}
                     >
                         {({ errors, touched, isValidating }) => (
                             <Form className={cl.form}>
+                                <div style={{ display: 'none' }}>
+                                <Field name='empty' />    
+                                </div>
+                        
                                 <div className={cl.item}>
-                                    <Field name="email"
+                                    <Field name="login"
+                                            placeholder={'Логин'}
+                                           validate={validatePassword} />
+                                    {errors.login && touched.login && <div className={cl.error}>{errors.login}</div>}
+                                </div>
+
+                                <div className={cl.item}>
+                                    <Field name="mail"
                                            placeholder={'Электронная почта'}
                                            validate={validateEmail} />
-                                    {errors.email && touched.email && <div className={cl.error}>{errors.email}</div>}
+                                    {errors.mail && touched.mail && <div className={cl.error}>{errors.mail}</div>}
                                 </div>
 
                                 <div className={cl.item}>
@@ -180,26 +199,7 @@ export const Auth:FC<{on:any}> = ({on}) => {
                                     {passwordValidateValue && <div className={cl.error}>{passwordValidateValue ? passwordValidateValue : ''}</div>}
                                 </div>
 
-                                <div className={cl.item  + ' ' + cl.repeatPassword}>
-                                    <div className={cl.password}>
-                                        <Field name="repeatPassword"
-                                               placeholder={'Повторите пароль'}
-                                               value={repeatPasswordValue}
-                                               onChange={(event:any) => {
-                                                   setRepeatPasswordValue(event?.currentTarget.value)
-                                                   signValidatePassword(event?.currentTarget.value,(value:any) => setRepeatValidatePasswordValue(value))
-                                               }}
-                                               type={repeatPasswordMode ? 'text' : 'password'} />
-                                        <span onClick={() => setRepeatPasswordMode(prev => !prev)}>
-                                            { repeatPasswordValidateValue && <img src="./assets/warning.svg" alt=""/>}
-                                            { !repeatPasswordValidateValue  && <img src="./assets/check-password.svg" alt=""/>}
-                                            <img src="./assets/eye-light.svg" alt=""/>
-                                        </span>
-                                    </div>
-                                    {repeatPasswordValidateValue && <div className={cl.error}>{repeatPasswordValidateValue ? repeatPasswordValidateValue : ''}</div>}
-                                </div>
-
-                                <div className={cl.item + ' ' + cl.checkbox_item}>
+                                {/* <div className={cl.item + ' ' + cl.checkbox_item}>
                                     <div className={cl.copy}>
                                         <div className={cl.checkbox_wrapper} onClick={() => setCheckMode(prev => !prev)}>
                                             <div className={cl.checkbox}>
@@ -212,15 +212,13 @@ export const Auth:FC<{on:any}> = ({on}) => {
                                             href="/">Политики конфиденциальности</a>
                                         </h3>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className={cl.item}>
                                     <button type="button" className={cl.random} onClick={() => {
                                         const pass = generate({ length: 23 ,upperCase:true})
-                                        setRepeatPasswordValue(pass)
                                         setPasswordValue(pass)
                                         signValidatePassword(pass,(value:any) => setValidatePasswordValue(value))
-                                        signValidatePassword(pass,(value:any) => setRepeatValidatePasswordValue(value))
                                         navigator.clipboard.writeText(pass)
                                             .then(() => {
 
@@ -236,7 +234,7 @@ export const Auth:FC<{on:any}> = ({on}) => {
                             </Form>
                         )}
                     </Formik>
-                    <a href={'/'} className={cl.sign}>
+                    <a className={cl.sign} onClick={() => setRegMode(prev => !prev)}>
                         Уже есть аккаунт? Войти
                     </a>
                 </>

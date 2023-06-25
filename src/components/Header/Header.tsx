@@ -53,8 +53,6 @@ export const Header = () => {
 
     const theme = useSelector(getThemeMode)
 
-    console.log(theme)
-
     const [modalMode,setModalMode] = useState(false)
     const [authMode,setAuthMode] = useState(false)
 
