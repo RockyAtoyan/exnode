@@ -13,7 +13,7 @@ import {
     getSummMode
 } from "../../store/selectors";
 
-import {setFilterMode, setPaidMode, setSummMode} from "../../store/stockReducer";
+import {getOffersItems, setFilterMode, setPaidMode, setSummMode} from "../../store/stockReducer";
 import {Notification} from "./Notification";
 import {StockItem} from "./StockItem";
 import {Chat} from "./Chat";
@@ -21,7 +21,7 @@ import {getOffers,} from "../../store/offersReducer"
 
 
 export const Stock = React.memo(() => {
-    const dispatch = useDispatch()
+    const dispatch:any = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -59,7 +59,7 @@ export const Stock = React.memo(() => {
         .filter(item => paidValue ? paidValue.includes(item.payment_method) : true)
         .filter(item => paidValue ? paidValue.includes(item.payment_method) : true)
         .map(item => {
-            return <StockItem key={item.id} item={item} />
+            return <StockItem key={item.id} item={item} type={toggle === 'buy' ? 1 : 2} />
         })
 
     useEffect(() => {
@@ -80,8 +80,12 @@ export const Stock = React.memo(() => {
 
     useEffect(() => {
         navigate('/' + toggle + '/' + moneyToggle)
-    }, [toggle,moneyToggle])
+    }, [toggle, moneyToggle])
+    
 
+    useEffect(() => {
+        dispatch(getOffersItems(toggle === 'buy' ? 1 : 2))
+    },[toggle])
 
 
 
@@ -269,7 +273,7 @@ export const Stock = React.memo(() => {
                         </div>
                     </div>
                     <div className={cl.items}>
-                        {items}
+                        {items.length > 0 ? items : <h2 style={{color:'var(--text-color)'}}>Предложений нет!</h2>}
                     </div>
                 </div>
             </div>

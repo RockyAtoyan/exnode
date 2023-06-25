@@ -1,9 +1,12 @@
 import cl from './Notification.module.scss'
 import {FC, useEffect, useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getPaidTypes} from "../../store/selectors";
+import { log } from 'console';
+import { createOffer } from '../../store/offersReducer';
 
-export const Notification: FC<{ onClose: any }> = ({onClose}) => {
+export const Notification: FC<{ onClose: any }> = ({ onClose }) => {
+    const dispatch:any = useDispatch()
 
     const paidTypes = useSelector(getPaidTypes)
 
@@ -228,7 +231,7 @@ export const Notification: FC<{ onClose: any }> = ({onClose}) => {
                         limit_end:maxValue,
                         requisites:requisitesValue
                     }
-                    console.log(payload)
+                    dispatch(createOffer(payload))
                 }}>Далее</button>
             </div>}
         </div>

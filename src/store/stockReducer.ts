@@ -1,5 +1,6 @@
 import {ThunkAction} from "redux-thunk";
 import {StateType} from "./store";
+import { api } from "../utils/api";
 
 
 const IS = {
@@ -69,6 +70,7 @@ const IS = {
             requisites: '10123123'
         },
     ] as any[],
+    message:[] as any,
     paidTypes: ['Сбербанк', 'Тинькофф', 'Райффайзен', 'Юmoney', 'QIWI'],
     filterTypes: ['самые новые', 'лучшая цена'],
     summMode: false,
@@ -151,3 +153,21 @@ export const setStockItems = (items: any[]): SetStockItems => ({type: 'set-stock
 
 
 type ThunkType = ThunkAction<Promise<void> | void, StateType, any, ActionsType>
+
+export const getOffersItems = (type: any): ThunkType => (dispatch) => {
+    return api(`/api/offer?type=${type}`, 'GET').then((data) => {
+        //dispatch(setStockItems(data.data))
+     });
+} 
+
+export const getMessage = (type: any): ThunkType => (dispatch) => {
+    return api(`/api/message?order_id=${type}`, 'GET').then((data) => {
+        //dispatch(setStockItems(data.data))
+     });
+} 
+
+export const createMessage = (body:any): ThunkType => (dispatch) => {
+    return api(`/api/message/create`, 'POST',body).then((data) => {
+        //dispatch(setStockItems(data.data))
+     });
+} 

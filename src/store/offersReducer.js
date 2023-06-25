@@ -30,6 +30,18 @@ export const getOffers = (query) => (dispatch) => {
     });
 }
 
+export const createOffer = (body) => (dispatch) => {
+    api('/api/offer/create', 'POST', body).then((r) => {
+       console.log(r);
+    });
+}
+
+export const createOrder = (body) => (dispatch) => {
+    api('/api/order/create', 'POST', body).then((r) => {
+       console.log(r);
+    });
+}
+
 // Action creators are generated for each case reducer function
 export const { increment, decrement, incrementByAmount } = counterSlice.actions
 

@@ -1,17 +1,23 @@
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import cl from './Chat.module.scss'
+import { useDispatch } from "react-redux";
+import { createMessage } from "../../store/stockReducer";
+import { log } from "console";
 
 
 export const Chat = () => {
+    const dispatch:any = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
 
     const [chatMode, setChatMode] = useState(false)
 
+    const [sendValue,setSendValue] = useState('')
+
     useEffect(() => {
         // if(location.pathname.split('/').slice(-1)[0] === 'chat') setChatMode(true)
-        if (localStorage.getItem('exnode-order-chat')) setChatMode(true)
+        if (JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').mode) setChatMode(true)
     }, [location])
 
 
@@ -42,8 +48,14 @@ export const Chat = () => {
 
             </div>
             <div className={cl.textarea}>
-                <input type={'text'} placeholder={'Ваше сообщение'}/>
-                <button>
+                <input type={'text'} value={sendValue} onChange={(event) => {setSendValue(event.currentTarget.value)}} placeholder={'Ваше сообщение'}/>
+            <button onClick={() => {
+                    const id = JSON.parse(localStorage.getItem('exnode-order-chat') + '').id
+                if(sendValue) dispatch(createMessage({
+                    order_id: id,
+                    text:sendValue
+                    }))
+                }}>
                     <img src="./assets/send.png" alt=""/>
                 </button>
             </div>

@@ -1,11 +1,14 @@
 import cl from "./Stock.module.scss";
 import {FC, useState} from "react";
-import {StockItemType} from "../../store/stockReducer";
+import {StockItemType, getMessage} from "../../store/stockReducer";
 import {checkInput} from "./Notification";
 import {useLocation, useNavigate} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createOffer } from "../../store/offersReducer";
 
 
-export const StockItem = ({item}) => {
+export const StockItem = ({ item, type }) => {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -123,8 +126,17 @@ export const StockItem = ({item}) => {
                     <div className={cl.sell_actions}>
                         <button onClick={() => setSellMode(false)}>Отменить</button>
                         <button disabled={!inputValue || paidSelect.length === 0} onClick={() => {
+                            dispatch(createOffer({
+                                offer_id: item.id,
+                                sum:inputValue
+                            }))
+                            dispatch(getMessage(item.id))
                              if(!(location.pathname.split('/').slice(-1)[0] === 'chat')) navigate('/' + location.pathname.slice(1) + '/chat')
-                            if(!localStorage.getItem('exnode-order-chat')) localStorage.setItem('exnode-order-chat','true')
+                            if (!localStorage.getItem('exnode-order-chat')) localStorage.setItem('exnode-order-chat', JSON.stringify({
+                                id: item.id,
+                                mode:true
+                            }))
+   
                         }}>Купить USDT</button>
                     </div>
                 </div>
@@ -181,7 +193,7 @@ export const StockItem = ({item}) => {
                     </button>
                 </div>
                 <div className={cl.item_btn} onClick={() => setSellMode(true)}>
-                    <button>Продать USDT</button>
+                    <button>{type === 1 ? 'Купить' : 'Продать'} USDT</button>
                 </div>
             </div>
         }
