@@ -4,10 +4,10 @@ import {StockItemType, getMessage} from "../../store/stockReducer";
 import {checkInput} from "./Notification";
 import {useLocation, useNavigate} from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { createOffer } from "../../store/offersReducer";
+import { createOffer, createOrder } from "../../store/offersReducer";
 
 
-export const StockItem = ({ item, type }) => {
+export const StockItem = ({ item, type, paidTypes }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
@@ -48,7 +48,7 @@ export const StockItem = ({ item, type }) => {
                         <h2>Цена</h2>
                         <div>
                             <h2>{item.price}</h2>
-                            <h3>{item.currency}</h3>
+                            <h3>{item.currency === 0 ? 'USDT' : 'BTC'}</h3>
                         </div>
                     </div>
                     <div className={cl.sell_item}>
@@ -70,7 +70,7 @@ export const StockItem = ({ item, type }) => {
                         </h2>
                         <div>
                             <button>
-                                {item.payment_method}
+                                {paidTypes[item.payment_method]}
                             </button>
                         </div>
                     </div>
@@ -126,7 +126,7 @@ export const StockItem = ({ item, type }) => {
                     <div className={cl.sell_actions}>
                         <button onClick={() => setSellMode(false)}>Отменить</button>
                         <button disabled={!inputValue || paidSelect.length === 0} onClick={() => {
-                            dispatch(createOffer({
+                            dispatch(createOrder({
                                 offer_id: item.id,
                                 sum:inputValue
                             }))
@@ -166,7 +166,7 @@ export const StockItem = ({ item, type }) => {
                 </div>
                 <div className={cl.item_price}>
                     <h2>{item.price}</h2>
-                    <h3>{item.currency}</h3>
+                    <h3>{item.currency === 0 ? 'USDT' : 'BTC'}</h3>
                 </div>
                 <div className={cl.item_limit}>
                     <div>
@@ -189,7 +189,7 @@ export const StockItem = ({ item, type }) => {
                 </div>
                 <div className={cl.item_paid}>
                     <button>
-                        {item.payment_method}
+                        {paidTypes[item.payment_method]}
                     </button>
                 </div>
                 <div className={cl.item_btn} onClick={() => setSellMode(true)}>

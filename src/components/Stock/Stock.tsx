@@ -5,15 +5,18 @@ import React, {useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    getErrorMessage,
     getFilterMode,
     getFilterTypes,
+    getNotificationMode,
     getPaidMode,
     getPaidTypes,
     getStockItems,
+    getSuccessMessage,
     getSummMode
 } from "../../store/selectors";
-
-import {getOffersItems, setFilterMode, setPaidMode, setSummMode} from "../../store/stockReducer";
+import { ToastContainer, toast } from 'react-toastify';
+import {getOffersItems, setFilterMode, setNotificationModeAC, setPaidMode, setSummMode} from "../../store/stockReducer";
 import {Notification} from "./Notification";
 import {StockItem} from "./StockItem";
 import {Chat} from "./Chat";
@@ -21,6 +24,7 @@ import {getOffers,} from "../../store/offersReducer"
 
 
 export const Stock = React.memo(() => {
+    
     const dispatch:any = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
@@ -34,14 +38,17 @@ export const Stock = React.memo(() => {
 
     const paidTypes = useSelector(getPaidTypes)
     const filterTypes = useSelector(getFilterTypes)
-
+    const successMessage = useSelector(getSuccessMessage)
+    const errorMessage = useSelector(getErrorMessage)
 
     const [toggle, setToggle] = useState(location.pathname === '/' ? 'buy' : (location.pathname.split('/')[1] === 'buy' ? 'buy' : 'sell'))
     const [moneyToggle, setMoneyToggle] = useState(location.pathname === '/' ? 'usdt' : (location.pathname.split('/')[2] === 'usdt' ? 'usdt' : 'btc'))
 
     const [viewMode,setViewMode] = useState(false)
 
-    const [notificationMode,setNotificationMode] = useState(false)
+    //const [notificationMode,setNotificationMode] = useState(false)
+
+    const notificationMode = useSelector(getNotificationMode)
 
     const [summValue, setSummValue] = useState('')
     const [summToggle, setSummToggle] = useState(false)
@@ -56,10 +63,9 @@ export const Stock = React.memo(() => {
 
     const items = stockItems
         .filter(item => summValue ? item.price >= +summValue : true)
-        .filter(item => paidValue ? paidValue.includes(item.payment_method) : true)
-        .filter(item => paidValue ? paidValue.includes(item.payment_method) : true)
+        .filter(item => paidValue.length > 0 ? paidValue.includes(paidTypes[item.payment_method]) : true)
         .map(item => {
-            return <StockItem key={item.id} item={item} type={toggle === 'buy' ? 1 : 2} />
+            return <StockItem key={item.id} item={item} type={toggle === 'buy' ? 1 : 2} paidTypes={paidTypes} />
         })
 
     useEffect(() => {
@@ -88,12 +94,33 @@ export const Stock = React.memo(() => {
     },[toggle])
 
 
-
+    const successNotify = () => toast.success("Успешно",
+        {
+        //theme:theme ? "light" : "dark",
+        });
+    
+    const errorNotify = () => toast.error("Произошла ошибка",
+    {
+        //theme:theme ? "light" : "dark",
+    });
+    
+    useEffect(() => {
+        if(successMessage) successNotify()
+    }, [successMessage])
+    
+    useEffect(() => {
+        if(errorMessage) errorNotify()
+    },[errorMessage])
 
     return <>
         <Chat />
+        <div className={cl.message}>
+            <ToastContainer />
+        </div>
         <section id={'stock'}>
-        {notificationMode && <Notification onClose={() => setNotificationMode(false)} />}
+            {notificationMode && <Notification onClose={() => { 
+                dispatch(setNotificationModeAC(false))
+            }} />}
         <div className="container">
             <div className={cl.main}>
                 <div className={cl.toggle}>
@@ -238,12 +265,16 @@ export const Stock = React.memo(() => {
                             </div>
                         </div>
                     </div>
-                    <button className={cl.filter_btn} onClick={() => setNotificationMode(prevState => !prevState)}>
+                        <button className={cl.filter_btn} onClick={() => {
+                            dispatch(setNotificationModeAC(!notificationMode))
+                    }}>
                         <img src="./assets/plus.png" alt=""/>
                         <h3>Новое объявление</h3>
                     </button>
                     <div className={cl.mobile_btns}>
-                        <button onClick={() => setNotificationMode(prevState => !prevState)}>
+                            <button onClick={() => {
+                                dispatch(setNotificationModeAC(!notificationMode))
+                        }}>
                             <img src="./assets/plus-solid.svg" alt=""/>
                         </button>
                         <button>

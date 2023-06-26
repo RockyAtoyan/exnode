@@ -231,7 +231,7 @@ export const Notification: FC<{ onClose: any }> = ({ onClose }) => {
                         limit_end:maxValue,
                         requisites:requisitesValue
                     }
-                    dispatch(createOffer(payload))
+                    dispatch(createOffer(payload,mainMode ? 1 : 2))
                 }}>Далее</button>
             </div>}
         </div>

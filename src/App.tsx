@@ -19,6 +19,10 @@ import {Profile} from "./components/Profile/Profile";
 const App = () => {
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        
+    },[]) 
+
     return (
             <div className="wrapper" onClick={(event) => {
 

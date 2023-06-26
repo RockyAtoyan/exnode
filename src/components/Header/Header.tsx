@@ -3,9 +3,11 @@ import lightLangButton from './buttons/language-light.svg'
 import Popup from "reactjs-popup";
 import {FC, useRef, useState} from "react";
 import {ThemeContext, themes} from '../Theme/ThemeContext';
-import {useSelector} from "react-redux";
-import {getThemeMode} from "../../store/selectors";
+import {useDispatch, useSelector} from "react-redux";
+import {getAuthMode, getProfile, getThemeMode} from "../../store/selectors";
 import {Auth} from "./Auth";
+import { setAuthMode } from '../../store/stockReducer';
+import { useNavigate } from 'react-router-dom';
 
 const LiItem:FC<{trigger:any,el:any}> = ({trigger,el}) => {
     const [mode,setMode] = useState(false)
@@ -47,21 +49,30 @@ const Toggle:FC<any> = ({ value, onChange, theme }) => (
 )
 
 export const Header = () => {
+    const dispatch: any = useDispatch()
+    const navigate = useNavigate()
 
     const menu = useRef<HTMLUListElement>(null)
     const burger = useRef<HTMLDivElement>(null)
 
     const theme = useSelector(getThemeMode)
+    const profile = useSelector(getProfile)
 
     const [modalMode,setModalMode] = useState(false)
-    const [authMode,setAuthMode] = useState(false)
+    //const [authMode,setAuthMode] = useState(false)
 
+    const authMode = useSelector(getAuthMode)
+    
     // @ts-ignore
     return <>
             <header className={cl.header}>
                 <div className="container">
                     <div className={cl.main}>
-                        <img src={'./assets/' + (!theme ? 'logo.svg' : 'exnode-dark.svg')} className={cl.logo} alt=""/>
+                    <img src={'./assets/' + (!theme ? 'logo.svg' : 'exnode-dark.svg')} className={cl.logo}
+                        onClick={() => {
+                            navigate('/')
+                        }}
+                        alt="" />
                         <ul className={cl.menu} ref={menu}>
                             <li>
                                 <LiItem trigger={
@@ -169,10 +180,11 @@ export const Header = () => {
                                     <img src={`./assets/language${theme ? '' : '-light'}.svg`} alt=""/>
                                 </button>
                             </div>
-                            <button className={cl.login} onClick={() => {
-                                setAuthMode(prev => !prev)
+                        <button className={cl.login} onClick={() => {
+                            if (!profile) dispatch(setAuthMode(!authMode))
+                            else navigate('/profile')
                             }}>
-                                Войти
+                                {profile ? 'Профиль' : 'Войти'}
                             </button>
                         </div>
                         <div className={cl.burger} ref={burger} onClick={() => {
@@ -235,7 +247,11 @@ export const Header = () => {
                     </button>
                 </div>
             </div>
-            {authMode && <Auth on={() => setAuthMode(false)} />}
+        {authMode && <Auth on={() => {
+            dispatch(setAuthMode(!authMode))
+            }} />}
         </>
 
 }
+
+//aC0`fK1@kK5#aA4*aG2%iI0
