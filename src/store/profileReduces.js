@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { api } from '../utils/api';
+import { api, setToken } from '../utils/api';
 
 export const counterSlice = createSlice({
     name: 'profile',
@@ -26,7 +26,8 @@ export const counterSlice = createSlice({
 
 export const login = (body) => (dispatch) => {
     api('/api/user/login', 'POST', body).then((r) => {
-       console.log(r);
+       //console.log(r);
+        setToken(r.token);
     });
 }
 

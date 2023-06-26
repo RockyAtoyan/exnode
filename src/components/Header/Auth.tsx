@@ -33,7 +33,7 @@ export function signValidatePassword(value:any,func:any) {
         func(error)
         return
     }
-    if(value.length < 10){
+    if(value.length < 8){
         error = 'Пароль должен быть не менее 10 символов';
         func(error)
         return
@@ -43,11 +43,11 @@ export function signValidatePassword(value:any,func:any) {
         func(error)
         return
     }
-    if(!new RegExp(/[.,&^$%#@!?*(){}]+/g).test(value)){
+    /*if(!new RegExp(/[.,&^$%#@!?*(){}]+/g).test(value)){
         error = 'Пароль должен содержать хотя бы один специальный символ';
         func(error)
         return
-    }
+    }*/
     func(error)
 }
 
@@ -151,7 +151,7 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
                                 dispatch(signIn({
                                     login: values.login,
                                     email: values.mail,
-                                    password:values.password
+                                    password: passwordValue
                                 }))
                             }
                             else {
