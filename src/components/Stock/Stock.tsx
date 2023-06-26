@@ -62,8 +62,8 @@ export const Stock = React.memo(() => {
     const [fiatValue, setFiatValue] = useState('')
 
     const items = stockItems
-        .filter(item => summValue ? item.price >= +summValue : true)
-        .filter(item => paidValue.length > 0 ? paidValue.includes(paidTypes[item.payment_method]) : true)
+        // .filter(item => summValue ? item.price >= +summValue : true)
+        // .filter(item => paidValue.length > 0 ? paidValue.includes(paidTypes[item.payment_method]) : true)
         .map(item => {
             return <StockItem key={item.id} item={item} type={toggle === 'buy' ? 1 : 2} paidTypes={paidTypes} />
         })
@@ -74,13 +74,13 @@ export const Stock = React.memo(() => {
             type: toggle ? 2 : 1,
             currency:moneyToggle ? 'usdt' : 'buy',
             limit:summValue,
-            payment_method:paidValue,
+            payment_method:paidValue.length === 1 ? paidValue[0] : paidValue,
             sort:filterValue === 0 ? 'timestamp' : 'price',
         }));
     }, []);
 
     useEffect(() => {
-        if (paidSelect.length === 0) setPaidValue(paidTypes)
+        if (paidSelect.length === 0) setPaidValue(paidTypes.map((_,idx) => idx + 1))
         else setPaidValue(paidSelect)
     }, [paidSelect])
 
@@ -90,8 +90,8 @@ export const Stock = React.memo(() => {
     
 
     useEffect(() => {
-        dispatch(getOffersItems(toggle === 'buy' ? 1 : 2))
-    },[toggle])
+        dispatch(getOffersItems(toggle === 'buy' ? 1 : 2,moneyToggle === 'usdt' ? 0 : 1))
+    },[toggle,moneyToggle])
 
 
     const successNotify = () => toast.success("Успешно",
@@ -234,10 +234,10 @@ export const Stock = React.memo(() => {
                             <div className={cl.paid_items}>
                                 {paidTypes.map((el, idx) => {
                                     return <div key={idx} className={cl.paid_item} onClick={() => {
-                                        if (paidSelect.includes(el)) setPaidSelect((prevState: any) => [...prevState.slice(0, paidSelect.indexOf(el)), ...prevState.slice(paidSelect.indexOf(el) + 1)])
-                                        else setPaidSelect((prevState: any) => [...prevState, el])
+                                        if (paidSelect.includes(idx + 1)) setPaidSelect((prevState: any) => [...prevState.slice(0, paidSelect.indexOf(idx + 1)), ...prevState.slice(paidSelect.indexOf(idx + 1) + 1)])
+                                        else setPaidSelect((prevState: any) => [...prevState, idx + 1])
                                     }}>
-                                        <span style={paidSelect.includes(el) ? {background:'#64cb8c'} : {}}></span>
+                                        <span style={paidSelect.includes(idx + 1) ? {background:'#64cb8c'} : {}}></span>
                                         <h3>{el}</h3>
                                     </div>
                                 })}

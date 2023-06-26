@@ -206,10 +206,10 @@ export const Notification: FC<{ onClose: any }> = ({ onClose }) => {
                         <div className={cl.paid_items}>
                             {paidTypes.map((el, idx) => {
                                 return <div key={idx} className={cl.paid_item} onClick={() => {
-                                    if (paidSelect.includes(el)) setPaidSelect((prevState: any) => [...prevState.slice(0, paidSelect.indexOf(el)), ...prevState.slice(paidSelect.indexOf(el) + 1)])
-                                    else setPaidSelect((prevState: any) => [...prevState, el])
+                                    if (paidSelect.includes(idx + 1)) setPaidSelect((prevState: any) => [...prevState.slice(0, paidSelect.indexOf(idx + 1)), ...prevState.slice(paidSelect.indexOf(idx + 1) + 1)])
+                                    else setPaidSelect((prevState: any) => [...prevState, idx + 1])
                                 }}>
-                                    <span style={paidSelect.includes(el) ? {background: '#64cb8c'} : {}}></span>
+                                    <span style={paidSelect.includes(idx + 1) ? {background: '#64cb8c'} : {}}></span>
                                     <h3>{el}</h3>
                                 </div>
                             })}
@@ -223,8 +223,8 @@ export const Notification: FC<{ onClose: any }> = ({ onClose }) => {
                 <button className={cl.next} disabled={!activeValue || !fiatValue || !availableValue || !minValue || !maxValue || !requisitesValue || paidValue.length < 1} onClick={() => {
                     const payload = {
                         type:mainMode ? 1 : 2,
-                        currency:activeValue,
-                        payment_method:paidValue,
+                        currency:activeValue === 'USDTTRC' ? 0 : 1,
+                        payment_method:paidValue.length === 1 ? paidValue[0] : paidValue,
                         price:priceMode ? ownPrice.toFixed(2) : (+ownPrice * (priceProcent / 100)).toFixed(2),
                         limit:availableValue,
                         limit_start:minValue,
