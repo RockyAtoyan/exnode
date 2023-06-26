@@ -1,12 +1,13 @@
 import cl from './Auth.module.scss'
 import {Field, Form, Formik} from "formik";
-import {FC, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import { generate } from '@wcj/generate-password';
 import { ToastContainer, toast } from 'react-toastify';
 import {useDispatch, useSelector} from "react-redux";
-import {getThemeMode} from "../../store/selectors";
+import {getErrorMessage, getRegMode, getThemeMode} from "../../store/selectors";
 import { log } from 'console';
 import { login, signIn } from '../../store/profileReduces';
+import { setRegMode } from '../../store/stockReducer';
 
 export function validateEmail(value:any ) {
     let error;
@@ -56,7 +57,10 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
 
     const theme = useSelector(getThemeMode)
 
-    const [regMode,setRegMode] = useState(false)
+    //const [regMode,setRegMode] = useState(false)
+
+    const regMode = useSelector(getRegMode)
+    const errorMessage = useSelector(getErrorMessage)
 
     const [passwordMode,setPasswordMode] = useState(false)
     const [repeatPasswordMode, setRepeatPasswordMode] = useState(false)
@@ -77,6 +81,15 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
         {
             theme:theme ? "light" : "dark",
         });
+    const errorNotify = () => toast.error("Произошла ошибка",
+    {
+        theme:theme ? "light" : "dark",
+    });
+    
+    useEffect(() => {
+        if(errorMessage) errorNotify()
+    },[errorMessage])
+    
 
     return <div className={cl.modal}>
         <div className={cl.message}>
@@ -130,8 +143,9 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
                         </Form>
                     )}
                 </Formik>
-                <button className={cl.sign} type="button" onClick={() =>{
-                     setRegMode(prev => !prev)}}>
+                <button className={cl.sign} type="button" onClick={() => {
+                    dispatch(setRegMode(!regMode))
+                }}>
                     Зарегистрироваться
                 </button>
             </> :
@@ -234,7 +248,7 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
                             </Form>
                         )}
                     </Formik>
-                    <a className={cl.sign} onClick={() => setRegMode(prev => !prev)}>
+                    <a className={cl.sign} onClick={() => dispatch(setRegMode(!regMode))}>
                         Уже есть аккаунт? Войти
                     </a>
                 </>

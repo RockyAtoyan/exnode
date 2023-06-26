@@ -1,75 +1,12 @@
 import {ThunkAction} from "redux-thunk";
 import {StateType} from "./store";
-import { api } from "../utils/api";
+import { api, setToken } from "../utils/api";
+import { getMessageItems } from "./selectors";
 
 
 const IS = {
-    stockItems: [
-        {
-            id: '1',
-            type: 1,
-            user: {
-                login: 'JungSangLee',
-                is_online: true
-            },
-            percent_success: 100,
-            price: 185.58,
-            currency: 'rub',
-            limit_start:1000,
-            limit_end:2500,
-            limit: 150,
-            payment_method: 'Сбербанк',
-            requisites: '10123123'
-        },
-        {
-            id: '2',
-            type: 1,
-            user: {
-                login: 'JungSangLee',
-                is_online: true
-            },
-            percent_success: 100,
-            price: 185.58,
-            currency: 'rub',
-            limit_start:1000,
-            limit_end:2500,
-            limit: 150,
-            payment_method: 'Сбербанк',
-            requisites: '10123123'
-        },
-        {
-            id: '3',
-            type: 1,
-            user: {
-                login: 'JungSangLee',
-                is_online: true
-            },
-            percent_success: 100,
-            price: 185.58,
-            currency: 'rub',
-            limit_start:1000,
-            limit_end:2500,
-            limit: 150,
-            payment_method: 'Сбербанк',
-            requisites: '10123123'
-        },
-        {
-            id: '4',
-            type: 1,
-            user: {
-                login: 'JungSangLee',
-                is_online: true
-            },
-            percent_success: 100,
-            price: 185.58,
-            currency: 'rub',
-            limit_start:1000,
-            limit_end:2500,
-            limit: 150,
-            payment_method: 'Сбербанк',
-            requisites: '10123123'
-        },
-    ] as any[],
+    profile:false as any,
+    stockItems: [] as any[],
     message:[] as any,
     paidTypes: ['Сбербанк', 'Тинькофф', 'Райффайзен', 'Юmoney', 'QIWI'],
     filterTypes: ['самые новые', 'лучшая цена'],
@@ -77,6 +14,11 @@ const IS = {
     paidSelectMode: false,
     filterMode: false,
     themeMode: false,
+    authMode: false,
+    regMode: false,
+    errorMessage: false,
+    successMessage: false,
+    notificationMode:false,
 }
 
 export const stockReducer = (state = IS, action: ActionsType) => {
@@ -90,6 +32,20 @@ export const stockReducer = (state = IS, action: ActionsType) => {
         return {...state, themeMode: action.mode !== 'dark'}
     } else if (action.type === 'set-stock-items-mode') {
         return {...state, stockItems: action.items}
+    } else if (action.type === 'set-reg-mode') {
+        return {...state, regMode: action.reg}
+    } else if (action.type === 'set-auth-mode') {
+        return {...state, authMode: action.mode}
+    } else if (action.type === 'set-error-message-mode') {
+        return {...state, errorMessage: action.mode}
+    } else if (action.type === 'set-profile') {
+        return {...state, profile: action.profile}
+    } else if (action.type === 'set-notification-mode') {
+        return {...state, notificationMode: action.mode}
+    } else if (action.type === 'set-success-message-mode') {
+        return {...state, successMessage: action.mode}
+    }  else if (action.type === 'set-message-items') {
+        return {...state, message: action.items}
     }
     return {...state}
 }
@@ -118,7 +74,14 @@ type ActionsType =
     SetPaidMode |
     SetFilterMode |
     SetThemeMode |
-    SetStockItems
+    SetStockItems |
+    SetRegMode | 
+    SetAuthMode |
+    SetErrorMessage | 
+    SetProfileAC | 
+    SetNotificationModeAC | 
+    SetSuccessMessage | 
+    SetMessageItems
 
 type SetSummMode = {
     type: 'set-summ-mode',
@@ -149,25 +112,69 @@ type SetStockItems = {
     type: 'set-stock-items-mode',
     items: any[]
 }
-export const setStockItems = (items: any[]): SetStockItems => ({type: 'set-stock-items-mode', items})
+export const setStockItems = (items: any[]): SetStockItems => ({ type: 'set-stock-items-mode', items })
+
+type SetRegMode = {
+    type: 'set-reg-mode',
+    reg: boolean
+}
+export const setRegMode = (reg: boolean): SetRegMode => ({ type: 'set-reg-mode', reg })
+
+type SetAuthMode = {
+    type: 'set-auth-mode',
+    mode: boolean
+}
+export const setAuthMode = (mode: boolean): SetAuthMode => ({ type: 'set-auth-mode', mode })
+
+type SetErrorMessage = {
+    type: 'set-error-message-mode',
+    mode: boolean
+}
+export const setErrorMessage = (mode: boolean): SetErrorMessage => ({ type: 'set-error-message-mode', mode })
+
+type SetSuccessMessage = {
+    type: 'set-success-message-mode',
+    mode: boolean
+}
+export const setSuccessMessage = (mode: boolean): SetSuccessMessage => ({ type: 'set-success-message-mode', mode })
+
+type SetProfileAC = {
+    type: 'set-profile',
+    profile:any,
+}
+export const setProfileAC = (profile: any): SetProfileAC => ({ type: 'set-profile', profile })
+
+type SetNotificationModeAC = {
+    type: 'set-notification-mode',
+    mode:boolean,
+}
+export const setNotificationModeAC = (mode: boolean): SetNotificationModeAC => ({ type: 'set-notification-mode', mode })
+
+type SetMessageItems = {
+    type: 'set-message-items',
+    items: any[]
+}
+export const setMessageItems = (items: any[]): SetMessageItems => ({ type: 'set-message-items', items })
 
 
 type ThunkType = ThunkAction<Promise<void> | void, StateType, any, ActionsType>
 
 export const getOffersItems = (type: any): ThunkType => (dispatch) => {
     return api(`/api/offer?type=${type}`, 'GET').then((data) => {
-        //dispatch(setStockItems(data.data))
+        dispatch(setStockItems(data.data))
      });
 } 
 
 export const getMessage = (type: any): ThunkType => (dispatch) => {
     return api(`/api/message?order_id=${type}`, 'GET').then((data) => {
-        //dispatch(setStockItems(data.data))
+        dispatch(setMessageItems(data.data))
+        setToken(data.token);
      });
 } 
 
 export const createMessage = (body:any): ThunkType => (dispatch) => {
     return api(`/api/message/create`, 'POST',body).then((data) => {
-        //dispatch(setStockItems(data.data))
+        dispatch(setMessageItems(data.data))
+        dispatch(getMessage(body.id))
      });
 } 

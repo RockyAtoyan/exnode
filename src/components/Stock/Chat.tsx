@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import cl from './Chat.module.scss'
-import { useDispatch } from "react-redux";
-import { createMessage } from "../../store/stockReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { createMessage, getMessage } from "../../store/stockReducer";
 import { log } from "console";
+import { getMessageItems } from "../../store/selectors";
 
 
 export const Chat = () => {
@@ -11,9 +12,16 @@ export const Chat = () => {
     const navigate = useNavigate()
     const location = useLocation()
 
+    const chat = useSelector(getMessageItems)
+
     const [chatMode, setChatMode] = useState(false)
 
-    const [sendValue,setSendValue] = useState('')
+    const [sendValue, setSendValue] = useState('')
+    
+    useEffect(() => {
+        if (JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').id) dispatch(getMessage(JSON.parse(localStorage.getItem('exnode-order-chat') + '').id))
+    }, [])
+    
 
     useEffect(() => {
         // if(location.pathname.split('/').slice(-1)[0] === 'chat') setChatMode(true)

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { api } from '../utils/api';
+import { api, setToken } from '../utils/api';
+import { getOffersItems, setNotificationModeAC, setSuccessMessage } from './stockReducer';
 
 export const counterSlice = createSlice({
     name: 'offers',
@@ -30,16 +31,27 @@ export const getOffers = (query) => (dispatch) => {
     });
 }
 
-export const createOffer = (body) => (dispatch) => {
+export const createOffer = (body, type = 1) => (dispatch) => {
+    dispatch(setSuccessMessage(false))
+    dispatch(setErrorMessage(false))
     api('/api/offer/create', 'POST', body).then((r) => {
-       console.log(r);
+        if (r.success) {
+            dispatch(getOffersItems(type))
+            dispatch(setNotificationModeAC(false))
+            dispatch(setSuccessMessage(true))
+        }
+        else {
+            dispatch(setErrorMessage(true))
+        }
     });
 }
 
 export const createOrder = (body) => (dispatch) => {
     api('/api/order/create', 'POST', body).then((r) => {
-       console.log(r);
+        console.log(r);
+        setToken(r.token);
     });
+
 }
 
 // Action creators are generated for each case reducer function
