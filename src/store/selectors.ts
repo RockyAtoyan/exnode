@@ -13,4 +13,5 @@ export const getAuthMode = (state: StateType) => state.stock.authMode
 export const getErrorMessage = (state: StateType) => state.stock.errorMessage
 export const getSuccessMessage = (state: StateType) => state.stock.successMessage
 export const getProfile = (state: StateType) => state.stock.profile
-export const getNotificationMode = (state:StateType) => state.stock.notificationMode
+export const getNotificationMode = (state: StateType) => state.stock.notificationMode
+export const getMessageItems = (state:StateType) => state.stock.message

@@ -1,6 +1,7 @@
 import {ThunkAction} from "redux-thunk";
 import {StateType} from "./store";
-import { api } from "../utils/api";
+import { api, setToken } from "../utils/api";
+import { getMessageItems } from "./selectors";
 
 
 const IS = {
@@ -43,6 +44,8 @@ export const stockReducer = (state = IS, action: ActionsType) => {
         return {...state, notificationMode: action.mode}
     } else if (action.type === 'set-success-message-mode') {
         return {...state, successMessage: action.mode}
+    }  else if (action.type === 'set-message-items') {
+        return {...state, message: action.items}
     }
     return {...state}
 }
@@ -77,7 +80,8 @@ type ActionsType =
     SetErrorMessage | 
     SetProfileAC | 
     SetNotificationModeAC | 
-    SetSuccessMessage
+    SetSuccessMessage | 
+    SetMessageItems
 
 type SetSummMode = {
     type: 'set-summ-mode',
@@ -144,8 +148,13 @@ type SetNotificationModeAC = {
     type: 'set-notification-mode',
     mode:boolean,
 }
-export const setNotificationModeAC = (mode: boolean): SetNotificationModeAC => ({type: 'set-notification-mode', mode})
+export const setNotificationModeAC = (mode: boolean): SetNotificationModeAC => ({ type: 'set-notification-mode', mode })
 
+type SetMessageItems = {
+    type: 'set-message-items',
+    items: any[]
+}
+export const setMessageItems = (items: any[]): SetMessageItems => ({ type: 'set-message-items', items })
 
 
 type ThunkType = ThunkAction<Promise<void> | void, StateType, any, ActionsType>
@@ -158,12 +167,14 @@ export const getOffersItems = (type: any): ThunkType => (dispatch) => {
 
 export const getMessage = (type: any): ThunkType => (dispatch) => {
     return api(`/api/message?order_id=${type}`, 'GET').then((data) => {
-        dispatch(setStockItems(data.data))
+        dispatch(setMessageItems(data.data))
+        setToken(data.token);
      });
 } 
 
 export const createMessage = (body:any): ThunkType => (dispatch) => {
     return api(`/api/message/create`, 'POST',body).then((data) => {
-        dispatch(setStockItems(data.data))
+        dispatch(setMessageItems(data.data))
+        dispatch(getMessage(body.id))
      });
 } 

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { api } from '../utils/api';
+import { api, setToken } from '../utils/api';
 import { getOffersItems, setNotificationModeAC, setSuccessMessage } from './stockReducer';
 
 export const counterSlice = createSlice({
@@ -48,8 +48,10 @@ export const createOffer = (body, type = 1) => (dispatch) => {
 
 export const createOrder = (body) => (dispatch) => {
     api('/api/order/create', 'POST', body).then((r) => {
-       console.log(r);
+        console.log(r);
+        setToken(r.token);
     });
+
 }
 
 // Action creators are generated for each case reducer function
