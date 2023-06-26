@@ -14,7 +14,7 @@ export async function api(url, method, body = false, queryObject = null) {
         query += '?'
         query += new URLSearchParams(queryObject).toString();
     }
-    
+
     try {
         let response = await fetch(host + url + query, {
             method: method,
