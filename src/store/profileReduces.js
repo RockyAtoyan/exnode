@@ -6,6 +6,7 @@ export const counterSlice = createSlice({
     name: 'profile',
     initialState: {
         items: [],
+        user: null,
     },
     reducers: {
         increment: (state) => {
@@ -22,6 +23,9 @@ export const counterSlice = createSlice({
         incrementByAmount: (state, action) => {
             state.value += action.payload
         },
+        setUser: (state, action) => {
+            state.user = action.payload
+        }
     },
 })
 
@@ -32,6 +36,8 @@ export const login = (body) => (dispatch) => {
             console.log(r)
             dispatch(setAuthMode(false))
             dispatch(setProfileAC(true))
+
+            dispatch(getProfile());
         }
         else {
             dispatch(setErrorMessage(true))
@@ -52,7 +58,17 @@ export const signIn = (body) => (dispatch) => {
     });
 }
 
+export const getProfile = () => (dispatch) => {
+    api('/api/user/profile', 'GET').then((r) => {
+        if(r.success) {
+            dispatch(setUser(r.data))
+        }
+    });
+}
+
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { increment, decrement, incrementByAmount, setUser } = counterSlice.actions
+
+export const selectUser = (state) => state.user
 
 export default counterSlice.reducer

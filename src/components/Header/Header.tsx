@@ -8,6 +8,7 @@ import {getAuthMode, getProfile, getThemeMode} from "../../store/selectors";
 import {Auth} from "./Auth";
 import { setAuthMode } from '../../store/stockReducer';
 import { useNavigate } from 'react-router-dom';
+import { selectUser } from "../../store/profileReduces";
 
 const LiItem:FC<{trigger:any,el:any}> = ({trigger,el}) => {
     const [mode,setMode] = useState(false)
@@ -56,7 +57,8 @@ export const Header = () => {
     const burger = useRef<HTMLDivElement>(null)
 
     const theme = useSelector(getThemeMode)
-    const profile = useSelector(getProfile)
+    const profile = useSelector(selectUser)
+    console.log(profile);
 
     const [modalMode,setModalMode] = useState(false)
     //const [authMode,setAuthMode] = useState(false)

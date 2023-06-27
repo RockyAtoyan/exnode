@@ -15,12 +15,17 @@ import {Ref} from "./components/Ref/Ref";
 import {Ques} from "./components/Ques/Ques";
 import {Footer} from "./components/Footer/Footer";
 import {Profile} from "./components/Profile/Profile";
+import { getProfile } from "./store/profileReduces";
+import { getToken } from "./utils/api";
 
 const App = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        
+        if(getToken()) {
+            // @ts-ignore
+            dispatch(getProfile())
+        }
     },[]) 
 
     return (
