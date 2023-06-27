@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { api, setToken } from '../utils/api';
-import { setErrorMessage, setRegMode, setAuthMode, setProfileAC } from './stockReducer';
+import {setErrorMessage, setRegMode, setAuthMode, setProfileAC, setRegEmailConfirm} from './stockReducer';
 
 export const counterSlice = createSlice({
     name: 'profile',
@@ -44,7 +44,7 @@ export const signIn = (body) => (dispatch) => {
     dispatch(setErrorMessage(false))
     api('/api/user/register', 'POST', body).then((r) => {
         if (r.success) {
-            dispatch(setRegMode(false))
+            dispatch(setRegEmailConfirm(true))
         }
         else {
             dispatch(setErrorMessage(true))

@@ -4,7 +4,7 @@ import {FC, useEffect, useState} from "react";
 import { generate } from '@wcj/generate-password';
 import { ToastContainer, toast } from 'react-toastify';
 import {useDispatch, useSelector} from "react-redux";
-import {getErrorMessage, getRegMode, getThemeMode} from "../../store/selectors";
+import {getErrorMessage, getRegEmailConfirm, getRegMode, getThemeMode} from "../../store/selectors";
 import { log } from 'console';
 import { login, signIn } from '../../store/profileReduces';
 import { setRegMode } from '../../store/stockReducer';
@@ -61,11 +61,14 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
 
     const regMode = useSelector(getRegMode)
     const errorMessage = useSelector(getErrorMessage)
+    const regEmailConfirm = useSelector(getRegEmailConfirm)
 
     const [passwordMode,setPasswordMode] = useState(false)
     const [repeatPasswordMode, setRepeatPasswordMode] = useState(false)
     
     const [loginValue,setLoginValue] = useState(false)
+
+    const [emailConfirm,setEmailConfirm] = useState('')
 
     const [checkMode,setCheckMode] = useState(false)
 
@@ -254,6 +257,13 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
                     <a className={cl.sign} onClick={() => dispatch(setRegMode(!regMode))}>
                         Уже есть аккаунт? Войти
                     </a>
+                    {regEmailConfirm && <div className={cl.confirm}>
+                        <h2>Введите код, который был отправлен на почту</h2>
+                        <input type="text" placeholder={'Введите код'} value={emailConfirm} onChange={(event) => setEmailConfirm(event.currentTarget.value)}/>
+                        <button onClick={() => {
+                            if(true) dispatch(setRegMode(false))
+                        }}>Продолжить</button>
+                    </div>}
                 </>
             }
 

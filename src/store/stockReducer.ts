@@ -19,6 +19,7 @@ const IS = {
     errorMessage: false,
     successMessage: false,
     notificationMode:false,
+    regEmailConfirm:false,
 }
 
 export const stockReducer = (state = IS, action: ActionsType) => {
@@ -46,6 +47,8 @@ export const stockReducer = (state = IS, action: ActionsType) => {
         return {...state, successMessage: action.mode}
     }  else if (action.type === 'set-message-items') {
         return {...state, message: action.items}
+    } else if (action.type === 'set-reg-email-confirm') {
+        return {...state, regEmailConfirm: action.mode}
     }
     return {...state}
 }
@@ -81,7 +84,8 @@ type ActionsType =
     SetProfileAC | 
     SetNotificationModeAC | 
     SetSuccessMessage | 
-    SetMessageItems
+    SetMessageItems |
+    SetRegEmailConfirm
 
 type SetSummMode = {
     type: 'set-summ-mode',
@@ -155,6 +159,12 @@ type SetMessageItems = {
     items: any[]
 }
 export const setMessageItems = (items: any[]): SetMessageItems => ({ type: 'set-message-items', items })
+
+    type SetRegEmailConfirm = {
+        type: 'set-reg-email-confirm',
+        mode: boolean
+    }
+    export const setRegEmailConfirm = (mode: boolean): SetRegEmailConfirm => ({ type: 'set-reg-email-confirm', mode })
 
 
 type ThunkType = ThunkAction<Promise<void> | void, StateType, any, ActionsType>
