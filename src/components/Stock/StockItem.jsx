@@ -87,7 +87,7 @@ export const StockItem = ({ item, type, paidTypes }) => {
                             }}/>
                             <h3>RUB</h3>
                         </div>
-                        {inputValue && +inputValue < 500 && <h4>Min: 500.00 RUB</h4>}
+                        {inputValue && +inputValue < item.limit_start && <h4>Min: {item.limit_start} RUB</h4>}
                     </div>
                 </div>
                 <div className={cl.sell_input}>
@@ -95,9 +95,8 @@ export const StockItem = ({ item, type, paidTypes }) => {
                     <div>
                         <div>
                             <input type="text" value={(+inputValue/item.price).toFixed(2)} />
-                            <h3>USDT</h3>
+                            <h3>{item.currency === 0 ? 'USDT' : (item.currency === 1 ? 'BTC' : 'ETH')}</h3>
                         </div>
-                        {inputValue && +inputValue < 500 && <h4>Min: 5.67 USDT</h4>}
                     </div>
                 </div>
                 <div className={cl.sell_input}>
@@ -135,7 +134,7 @@ export const StockItem = ({ item, type, paidTypes }) => {
                                 Цена криптовалюты часто меняется в связи с рыночными условиями.Цена, указанная на странице подтверждения ордера, является окончательной.
                             </div>
                         </div>
-                        <span>1 USDT ≈ 88.13 RUB</span>
+                        <span>1 {item.currency === 0 ? 'USDT' : (item.currency === 1 ? 'BTC' : 'ETH')} ≈ {item.price} RUB</span>
                     </div>
                     <div className={cl.sell_actions}>
                         <button onClick={() => setSellMode(false)}>Отменить</button>
@@ -143,13 +142,9 @@ export const StockItem = ({ item, type, paidTypes }) => {
                             dispatch(createOrder({
                                 offer_id: item.id,
                                 sum:inputValue
-                            }))
+                            },item.user.login))
                             if(!(location.pathname.split('/').slice(-1)[0] === 'chat')) navigate('/' + location.pathname.slice(1) + '/chat')
-                            if (!localStorage.getItem('exnode-order-chat')) localStorage.setItem('exnode-order-chat', JSON.stringify({
-                                id: item.id,
-                                mode:true
-                            }))
-                        }}>Купить USDT</button>
+                        }}>Купить {item.currency === 0 ? 'USDT' : (item.currency === 1 ? 'BTC' : 'ETH')}</button>
                     </div>
                 </div>
             </div>
@@ -205,7 +200,7 @@ export const StockItem = ({ item, type, paidTypes }) => {
                     </button>
                 </div>
                 <div className={cl.item_btn} onClick={() => setSellMode(true)}>
-                    <button>{type === 1 ? 'Купить' : 'Продать'} USDT</button>
+                    <button>{type === 1 ? 'Купить' : 'Продать'} {item.currency === 0 ? 'USDT' : (item.currency === 1 ? 'BTC' : 'ETH')}</button>
                 </div>
             </div>
         }

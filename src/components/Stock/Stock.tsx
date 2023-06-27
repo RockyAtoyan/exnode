@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     getErrorMessage,
     getFilterMode,
-    getFilterTypes,
+    getFilterTypes, getMessageItems,
     getNotificationMode,
     getPaidMode,
     getPaidTypes,
@@ -41,9 +41,10 @@ export const Stock = React.memo(() => {
     const successMessage = useSelector(getSuccessMessage)
     const errorMessage = useSelector(getErrorMessage)
     const message = useSelector(getErrorMessage)
+    const chat = useSelector(getMessageItems)
 
     const [toggle, setToggle] = useState(location.pathname === '/' ? 'buy' : (location.pathname.split('/')[1] === 'buy' ? 'buy' : 'sell'))
-    const [moneyToggle, setMoneyToggle] = useState(location.pathname === '/' ? 'usdt' : (location.pathname.split('/')[2] === 'usdt' ? 'usdt' : 'btc'))
+    const [moneyToggle, setMoneyToggle] = useState(location.pathname === '/' ? 'usdt' : (location.pathname.split('/')[2] === 'usdt' ? 'usdt' : (location.pathname.split('/')[2] === 'btc' ?  'btc' : 'eth') ))
 
     const [viewMode,setViewMode] = useState(false)
 
