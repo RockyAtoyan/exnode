@@ -67,7 +67,6 @@ export const Chat = () => {
             <div className={cl.textarea}>
                 <input type={'text'} value={sendValue} onChange={(event) => {setSendValue(event.currentTarget.value)}} placeholder={'Ваше сообщение'}/>
             <button onClick={() => {
-                    debugger
                     const id = JSON.parse(localStorage.getItem('exnode-order-chat') + '').id
                     if(sendValue && id) {
                         dispatch(createMessage({
