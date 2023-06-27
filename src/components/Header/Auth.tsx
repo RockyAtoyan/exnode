@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import {useDispatch, useSelector} from "react-redux";
 import {getErrorMessage, getRegEmailConfirm, getRegMode, getThemeMode} from "../../store/selectors";
 import { log } from 'console';
-import { login, signIn } from '../../store/profileReduces';
+import {login, sendEmailCode, signIn} from '../../store/profileReduces';
 import { setRegMode } from '../../store/stockReducer';
 
 export function validateEmail(value:any ) {
@@ -261,7 +261,9 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
                         <h2>Введите код, который был отправлен на почту</h2>
                         <input type="text" placeholder={'Введите код'} value={emailConfirm} onChange={(event) => setEmailConfirm(event.currentTarget.value)}/>
                         <button onClick={() => {
-                            if(true) dispatch(setRegMode(false))
+                            if(emailConfirm) dispatch(sendEmailCode({
+                                code:emailConfirm
+                            }))
                         }}>Продолжить</button>
                     </div>}
                 </>

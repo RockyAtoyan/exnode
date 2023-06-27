@@ -68,6 +68,7 @@ export const Chat = () => {
                 {chat?.map((el:any,idx:number) => {
                     return <div key={el.id} className={cl.get + ' ' + cl.message}>
                         <h2>
+                            <span>{el.user.login}</span>
                             <span>{el.text}</span>
                             {el.timestamp && <span>{timeConverter(el.timestamp)}</span>}
                         </h2>
