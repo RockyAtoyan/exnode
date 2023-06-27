@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { api, setToken } from '../utils/api';
-import { getOffersItems, setNotificationModeAC, setSuccessMessage } from './stockReducer';
+import { getOffersItems, setNotificationModeAC, setSuccessMessage, setErrorMessage } from './stockReducer';
 
 export const counterSlice = createSlice({
     name: 'offers',
@@ -48,8 +48,7 @@ export const createOffer = (body, type = 1) => (dispatch) => {
 
 export const createOrder = (body) => (dispatch) => {
     api('/api/order/create', 'POST', body).then((r) => {
-        console.log(r);
-        setToken(r.token);
+
     });
 
 }

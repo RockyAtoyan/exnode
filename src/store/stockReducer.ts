@@ -168,7 +168,6 @@ export const getOffersItems = (type: any): ThunkType => (dispatch) => {
 export const getMessage = (type: any): ThunkType => (dispatch) => {
     return api(`/api/message?order_id=${type}`, 'GET').then((data) => {
         dispatch(setMessageItems(data.data))
-        setToken(data.token);
      });
 } 
 
