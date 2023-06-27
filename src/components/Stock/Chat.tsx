@@ -51,8 +51,17 @@ export const Chat = () => {
                     <h2>Example</h2>
                 </div>
                 <div className={cl.get}>
-                    <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi architecto aspernatur at deserunt dignissimos doloremque dolores ducimus et fugiat, laboriosam laborum laudantium minus non odio porro sapiente sunt, temporibus, vitae?</h2>
+                    <h2>
+                        Example
+                    </h2>
                 </div>
+                {chat?.map((el:any,idx:number) => {
+                    return <div key={idx} className={cl.get}>
+                        <h2>
+                            {el}
+                        </h2>
+                    </div>
+                })}
 
             </div>
             <div className={cl.textarea}>

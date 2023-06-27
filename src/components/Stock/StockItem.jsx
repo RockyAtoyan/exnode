@@ -21,7 +21,7 @@ export const StockItem = ({ item, type, paidTypes }) => {
 
     const [paidMode,setPaidMode] = useState(false)
 
-    const [paidSelect, setPaidSelect] = useState([])
+    const [paidSelect, setPaidSelect] = useState(1)
 
     return <>
         {sellMode ? <div className={cl.sell}>
@@ -70,7 +70,7 @@ export const StockItem = ({ item, type, paidTypes }) => {
                         </h2>
                         <div>
                             <button>
-                                {paidTypes[item.payment_method]}
+                                {paidTypes[item.payment_method - 1]}
                             </button>
                         </div>
                     </div>
@@ -94,9 +94,7 @@ export const StockItem = ({ item, type, paidTypes }) => {
                     <h3>Я получу</h3>
                     <div>
                         <div>
-                            <input type="text" value={inputValue} onChange={(event) => {
-                                if(checkInput(event.currentTarget.value)) setInputValue(event.currentTarget.value)
-                            }}/>
+                            <input type="text" value={(+inputValue/item.price).toFixed(2)} />
                             <h3>USDT</h3>
                         </div>
                         {inputValue && +inputValue < 500 && <h4>Min: 5.67 USDT</h4>}
@@ -104,13 +102,29 @@ export const StockItem = ({ item, type, paidTypes }) => {
                 </div>
                 <div className={cl.sell_input}>
                     <button>Выберете способ оплаты</button>
-                    <div className={cl.paid_item + ' ' + cl.sell_btn} onClick={() => {
-                        if (paidSelect.includes(item.payment_method)) setPaidSelect((prevState) => [...prevState.slice(0, paidSelect.indexOf(item.payment_method)), ...prevState.slice(paidSelect.indexOf(item.payment_method) + 1)])
-                        else setPaidSelect((prevState) => [...prevState, item.payment_method])
-                    }}>
-                        <span style={paidSelect.includes(item.payment_method) ? {background: '#64cb8c'} : {}}></span>
-                        <h3>{item.payment_method}</h3>
-                    </div>
+                    {Array.isArray(item.payment_method) ?
+                        <div className={cl.paid_items}>
+                            {item.payment_method.map((method,idx) => {
+                                return <div className={cl.paid_item + ' ' + cl.sell_btn} onClick={() => {
+                                    if(paidSelect === method) setPaidSelect(false)
+                                    else setPaidSelect(item.payment_method)
+                                }}>
+                                    <span style={method === paidSelect ? {background: '#64cb8c'} : {}}></span>
+                                    <h3>{paidTypes[+item.payment_method - 1]}</h3>
+                                </div>
+                            })}
+                        </div>
+                        :
+                        <div className={cl.paid_item + ' ' + cl.sell_btn} onClick={() => {
+                            if(paidSelect === item.payment_method) setPaidSelect(false)
+                            else setPaidSelect(item.payment_method)
+                        }}>
+                            <span style={item.payment_method === paidSelect ? {background: '#64cb8c'} : {}}></span>
+                            <h3>{paidTypes[+item.payment_method - 1]}</h3>
+                        </div>
+                    }
+
+
                 </div>
                 <div className={cl.sell_info}>
                     <div>
@@ -189,7 +203,7 @@ export const StockItem = ({ item, type, paidTypes }) => {
                 </div>
                 <div className={cl.item_paid}>
                     <button>
-                        {paidTypes[item.payment_method]}
+                        {paidTypes[item.payment_method - 1]}
                     </button>
                 </div>
                 <div className={cl.item_btn} onClick={() => setSellMode(true)}>

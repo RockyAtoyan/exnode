@@ -159,8 +159,8 @@ export const setMessageItems = (items: any[]): SetMessageItems => ({ type: 'set-
 
 type ThunkType = ThunkAction<Promise<void> | void, StateType, any, ActionsType>
 
-export const getOffersItems = (type: any): ThunkType => (dispatch) => {
-    return api(`/api/offer?type=${type}`, 'GET').then((data) => {
+export const getOffersItems = (type: any,currency:any): ThunkType => (dispatch) => {
+    return api(`/api/offer?type=${type}&currency=${currency}`, 'GET').then((data) => {
         dispatch(setStockItems(data.data))
      });
 } 

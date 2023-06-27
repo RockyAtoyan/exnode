@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { api, setToken } from '../utils/api';
-import { getOffersItems, setNotificationModeAC, setSuccessMessage, setErrorMessage } from './stockReducer';
+import {getOffersItems, setErrorMessage, setNotificationModeAC, setSuccessMessage} from './stockReducer';
 
 export const counterSlice = createSlice({
     name: 'offers',
