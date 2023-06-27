@@ -5,6 +5,7 @@ import { getMessageItems } from "./selectors";
 
 
 const IS = {
+    fetching:true,
     profile:false as any,
     stockItems: [] as any[],
     message:[] as any,
@@ -49,6 +50,8 @@ export const stockReducer = (state = IS, action: ActionsType) => {
         return {...state, message: action.items}
     } else if (action.type === 'set-reg-email-confirm') {
         return {...state, regEmailConfirm: action.mode}
+    }  else if (action.type === 'set-fetching-mode') {
+        return {...state, fetching:action.mode}
     }
     return {...state}
 }
@@ -85,7 +88,8 @@ type ActionsType =
     SetNotificationModeAC | 
     SetSuccessMessage | 
     SetMessageItems |
-    SetRegEmailConfirm
+    SetRegEmailConfirm |
+    SetFetchingMode
 
 type SetSummMode = {
     type: 'set-summ-mode',
@@ -98,6 +102,12 @@ type SetPaidMode = {
     mode: boolean
 }
 export const setPaidMode = (mode: boolean): SetPaidMode => ({type: 'set-paid-mode', mode})
+
+type SetFetchingMode = {
+    type: 'set-fetching-mode',
+    mode: boolean
+}
+export const setFetchingMode = (mode: boolean): SetFetchingMode => ({type: 'set-fetching-mode', mode})
 
 
 type SetFilterMode = {

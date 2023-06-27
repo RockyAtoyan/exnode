@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import cl from './Chat.module.scss'
 import { useDispatch, useSelector } from "react-redux";
 import { createMessage, getMessage } from "../../store/stockReducer";
 import { log } from "console";
-import { getMessageItems } from "../../store/selectors";
+import {getFetching, getMessageItems} from "../../store/selectors";
 
 
 export const Chat = () => {
@@ -12,7 +12,10 @@ export const Chat = () => {
     const navigate = useNavigate()
     const location = useLocation()
 
+    const scroll = useRef<HTMLDivElement>(null)
+
     const chat = useSelector(getMessageItems)
+    const fetching = useSelector(getFetching)
 
     const [chatMode, setChatMode] = useState(false)
 
@@ -21,18 +24,24 @@ export const Chat = () => {
     const [login,setLogin] = useState('')
     
     useEffect(() => {
-        if (JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').id) dispatch(getMessage(JSON.parse(localStorage.getItem('exnode-order-chat') + '').id))
+        if (JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').id) {
+            dispatch(getMessage(JSON.parse(localStorage.getItem('exnode-order-chat') + '').id))
+        }
     }, [])
 
     useEffect(() => {
-        //if(chat.length > 0) setLogin(chat[0].user.login)
+        if(JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').name) setLogin(JSON.parse(localStorage.getItem('exnode-order-chat') + '').name)
+    },[chat])
+
+    useEffect(() => {
+        scroll.current?.scrollIntoView({behavior:'smooth'})
     },[chat])
     
 
     useEffect(() => {
         // if(location.pathname.split('/').slice(-1)[0] === 'chat') setChatMode(true)
         if (JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').mode) setChatMode(true)
-    }, [location])
+    }, [location,fetching])
 
 
     return !chatMode ? <></> : <div className={cl.chat}>
@@ -64,7 +73,7 @@ export const Chat = () => {
                         </h2>
                     </div>
                 }).reverse()}
-
+                <div ref={scroll}></div>
             </div>
             <div className={cl.textarea}>
                 <input type={'text'} value={sendValue} onChange={(event) => {setSendValue(event.currentTarget.value)}} placeholder={'Ваше сообщение'}/>
@@ -76,6 +85,7 @@ export const Chat = () => {
                             text: sendValue
                         }))
                         setSendValue('')
+                        scroll.current?.scrollIntoView({behavior:'smooth'})
                     }
                     }}>
                     <img src="./assets/send.png" alt=""/>

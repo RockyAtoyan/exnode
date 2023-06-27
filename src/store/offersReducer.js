@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { api, setToken } from '../utils/api';
-import {getMessage, getOffersItems, setErrorMessage, setNotificationModeAC, setSuccessMessage} from './stockReducer';
+import {
+    getMessage,
+    getOffersItems,
+    setErrorMessage,
+    setFetchingMode,
+    setNotificationModeAC,
+    setSuccessMessage
+} from './stockReducer';
 
 export const counterSlice = createSlice({
     name: 'offers',
@@ -46,9 +53,18 @@ export const createOffer = (body, type = 1) => (dispatch) => {
     });
 }
 
-export const createOrder = (body) => (dispatch) => {
+export const createOrder = (body,name) => (dispatch) => {
+    dispatch(setFetchingMode(true))
     api('/api/order/create', 'POST', body).then((r) => {
-        dispatch(getMessage(body.offer_id))
+        if(r.success){
+            if (!localStorage.getItem('exnode-order-chat')) localStorage.setItem('exnode-order-chat', JSON.stringify({
+                id: r.id,
+                name:name,
+                mode:true
+            }))
+            dispatch(getMessage(r.id))
+        }
+        dispatch(setFetchingMode(false))
     });
 
 }
