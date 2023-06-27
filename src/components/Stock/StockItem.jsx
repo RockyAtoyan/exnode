@@ -28,11 +28,11 @@ export const StockItem = ({ item, type, paidTypes }) => {
             <div className={cl.sell_main}>
                 <div className={cl.item_info}>
                     <div className={cl.item_profile}>
-                        {/*<div className={cl.item_img}>*/}
-                        {/*    <img src={item.img} alt=""/>*/}
-                        {/*    <span></span>*/}
-                        {/*    <span></span>*/}
-                        {/*</div>*/}
+                        <div className={cl.item_img}>
+                            <img src={item.img ? item.img : './assets/user.png'} alt=""/>
+                            {/*<span></span>*/}
+                            {/*<span></span>*/}
+                        </div>
                         <div>
                             <div className={cl.item_name}>
                                 <h2>{item.user.login}</h2>
@@ -153,11 +153,11 @@ export const StockItem = ({ item, type, paidTypes }) => {
             <div className={cl.item}>
                 <div className={cl.item_info}>
                     <div className={cl.item_profile}>
-                        {/*<div className={cl.item_img}>*/}
-                        {/*    <img src={item.img} alt=""/>*/}
-                        {/*    <span></span>*/}
-                        {/*    <span></span>*/}
-                        {/*</div>*/}
+                        <div className={cl.item_img}>
+                            <img src={item.img ? item.img : './assets/user.png'} alt=""/>
+                            {/*<span></span>*/}
+                            {/*<span></span>*/}
+                        </div>
                         <div>
                             <div className={cl.item_name}>
                                 <h2>{item.user.login}</h2>
