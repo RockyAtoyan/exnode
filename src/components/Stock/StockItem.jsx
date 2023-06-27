@@ -1,16 +1,19 @@
 import cl from "./Stock.module.scss";
 import {FC, useState} from "react";
-import {StockItemType, getMessage} from "../../store/stockReducer";
+import {StockItemType, getMessage, setNotificationModeAC, setAuthMode} from "../../store/stockReducer";
 import {checkInput} from "./Notification";
 import {useLocation, useNavigate} from "react-router-dom";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { createOffer, createOrder } from "../../store/offersReducer";
+import {selectUser} from "../../store/selectors";
 
 
 export const StockItem = ({ item, type, paidTypes }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
+
+    const profile = useSelector(selectUser)
 
     const [sellMode,setSellMode] = useState(false)
 
@@ -199,7 +202,11 @@ export const StockItem = ({ item, type, paidTypes }) => {
                         {paidTypes[item.payment_method - 1]}
                     </button>
                 </div>
-                <div className={cl.item_btn} onClick={() => setSellMode(true)}>
+                <div className={cl.item_btn} onClick={() => {
+                    //@ts-ignore
+                    if(profile?.id) setSellMode(true)
+                    else dispatch(setAuthMode(true))
+                }}>
                     <button>{type === 1 ? 'Купить' : 'Продать'} {item.currency === 0 ? 'USDT' : (item.currency === 1 ? 'BTC' : 'ETH')}</button>
                 </div>
             </div>

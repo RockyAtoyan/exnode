@@ -14,7 +14,7 @@ export const Notification: FC<{ onClose: any }> = ({ onClose }) => {
 
     const [secondMode, setSecondMode] = useState(false)
 
-    const [emailMode, setEmailMode] = useState(false)
+    //const [emailMode, setEmailMode] = useState(false)
 
     const [activeValue, setActiveValue] = useState<any>('USDTTRC')
     const [activeMode, setActiveMode] = useState(false)
@@ -43,25 +43,13 @@ export const Notification: FC<{ onClose: any }> = ({ onClose }) => {
         <button className={cl.close} onClick={onClose}>
             <img src="./assets/plus-solid.svg" alt=""/>
         </button>
-        {emailMode && <div className={cl.email_modal}>
-            <div className={cl.email_content}>
-                <button onClick={() => setEmailMode(false)}>
-                    <img src="./assets/plus-solid.svg" alt=""/>
-                </button>
-                <h2>Требования для торговли</h2>
-                <h3>Подтвердите почту</h3>
-                <img src="./assets/email-confirm.svg" alt=""/>
-                <h3>Пройдите верификацию</h3>
-                <button>Перейти</button>
-            </div>
-        </div>}
         <div className={cl.content}>
             {!secondMode && <div className={cl.first}>
                 <div className={cl.first_btns}>
                     <button className={mainMode ? cl.active : ''} onClick={() => setMainMode(true)}>Хочу купить</button>
                     <button className={!mainMode ? cl.active : ''} onClick={() => {
                         setMainMode(false)
-                        setEmailMode(true)
+                        //setEmailMode(true)
                     }}>Хочу продать
                     </button>
                 </div>
@@ -225,7 +213,7 @@ export const Notification: FC<{ onClose: any }> = ({ onClose }) => {
                     <h3>Срок оплаты — 15 минут</h3>
                 </div>
                 <button className={cl.prev} onClick={() => setSecondMode(false)}>Назад</button>
-                <button className={cl.next} disabled={!activeValue || !fiatValue || !availableValue || !minValue || !maxValue || !requisitesValue || paidValue.length < 1} onClick={() => {
+                <button className={cl.next} disabled={+minValue > +minValue || !activeValue || !fiatValue || !availableValue || !minValue || !maxValue || !requisitesValue || paidValue.length < 1} onClick={() => {
                     const payload = {
                         type:mainMode ? 1 : 2,
                         currency:activeValue === 'USDTTRC' ? 0 : (activeValue === 'BTC' ? 1 : 2),
@@ -233,7 +221,7 @@ export const Notification: FC<{ onClose: any }> = ({ onClose }) => {
                         price:priceMode ? ownPrice.toFixed(2) : (+ownPrice * (priceProcent / 100)).toFixed(2),
                         limit:availableValue,
                         limit_start:minValue,
-                        limit_end:maxValue,
+                        limit_end:minValue,
                         requisites:requisitesValue
                     }
                     dispatch(createOffer(payload,mainMode ? 1 : 2))

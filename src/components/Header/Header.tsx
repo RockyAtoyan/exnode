@@ -8,6 +8,7 @@ import {getAuthMode, getProfile, getThemeMode, selectUser} from "../../store/sel
 import {Auth} from "./Auth";
 import { setAuthMode } from '../../store/stockReducer';
 import { useNavigate } from 'react-router-dom';
+import {setUser} from "../../store/profileReduces";
 
 const LiItem:FC<{trigger:any,el:any}> = ({trigger,el}) => {
     const [mode,setMode] = useState(false)
@@ -57,7 +58,6 @@ export const Header = () => {
 
     const theme = useSelector(getThemeMode)
     const profile = useSelector(selectUser)
-    console.log(profile);
 
     const [modalMode,setModalMode] = useState(false)
     //const [authMode,setAuthMode] = useState(false)
@@ -191,6 +191,13 @@ export const Header = () => {
                                     return profile?.id ? 'Профиль' : 'Войти'
                                 })()}
                             </button>
+                            {(() => {
+                                // @ts-ignore
+                                if(profile?.id) return <button className={cl.login} onClick={() => {
+                                    localStorage.removeItem('token')
+                                    dispatch(setUser(null))
+                                }}>Выйти</button>
+                            })()}
                         </div>
                         <div className={cl.burger} ref={burger} onClick={() => {
                             menu.current?.classList.toggle(cl.active)

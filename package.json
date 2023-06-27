@@ -1,7 +1,7 @@
 {
   "name": "exnode",
   "version": "0.1.0",
-  "homepage": "https://rockyatoyan.github.io/exnode",
+  "homepage": "",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",

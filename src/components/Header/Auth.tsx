@@ -112,7 +112,6 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
                 <Formik
                     initialValues={{ email: '',password:''}}
                     onSubmit={(values, actions) => {
-                        console.log(values)
                         dispatch(login({
                             email:values.email,
                             password:values.password
@@ -163,11 +162,6 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
                         initialValues={{empty:'', login:'',mail:'',password:''}}
                         onSubmit={(values, actions) => {
                             if (passwordValue) {
-                                console.log({
-                                    login: values.login,
-                                    email: values.mail,
-                                    password:passwordValue
-                                })
                                 dispatch(signIn({
                                     login: values.login,
                                     email: values.mail,

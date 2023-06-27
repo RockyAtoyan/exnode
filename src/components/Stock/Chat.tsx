@@ -36,7 +36,16 @@ export const Chat = () => {
     useEffect(() => {
         scroll.current?.scrollIntoView({behavior:'smooth'})
     },[chat])
-    
+
+    useEffect(() => {
+        let timer
+        if(chatMode && JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').name) timer = setInterval(() => {
+            dispatch(getMessage(JSON.parse(localStorage.getItem('exnode-order-chat') + '')?.id))
+        },3000)
+        else {
+            clearInterval(timer)
+        }
+    },[chatMode])
 
     useEffect(() => {
         // if(location.pathname.split('/').slice(-1)[0] === 'chat') setChatMode(true)

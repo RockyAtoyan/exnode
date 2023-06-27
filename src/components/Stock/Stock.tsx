@@ -13,10 +13,17 @@ import {
     getPaidTypes,
     getStockItems,
     getSuccessMessage,
-    getSummMode
+    getSummMode, selectUser
 } from "../../store/selectors";
 import { ToastContainer, toast } from 'react-toastify';
-import {getOffersItems, setFilterMode, setNotificationModeAC, setPaidMode, setSummMode} from "../../store/stockReducer";
+import {
+    getOffersItems,
+    setAuthMode,
+    setFilterMode,
+    setNotificationModeAC,
+    setPaidMode,
+    setSummMode
+} from "../../store/stockReducer";
 import {Notification} from "./Notification";
 import {StockItem} from "./StockItem";
 import {Chat} from "./Chat";
@@ -42,6 +49,7 @@ export const Stock = React.memo(() => {
     const errorMessage = useSelector(getErrorMessage)
     const message = useSelector(getErrorMessage)
     const chat = useSelector(getMessageItems)
+    const profile = useSelector(selectUser)
 
     const [toggle, setToggle] = useState(location.pathname === '/' ? 'buy' : (location.pathname.split('/')[1] === 'buy' ? 'buy' : 'sell'))
     const [moneyToggle, setMoneyToggle] = useState(location.pathname === '/' ? 'usdt' : (location.pathname.split('/')[2] === 'usdt' ? 'usdt' : (location.pathname.split('/')[2] === 'btc' ?  'btc' : 'eth') ))
@@ -271,14 +279,18 @@ export const Stock = React.memo(() => {
                         </div>
                     </div>
                         <button className={cl.filter_btn} onClick={() => {
-                            dispatch(setNotificationModeAC(!notificationMode))
+                            //@ts-ignore
+                            if(profile?.id) dispatch(setNotificationModeAC(!notificationMode))
+                            else dispatch(setAuthMode(true))
                     }}>
                         <img src="./assets/plus.png" alt=""/>
                         <h3>Новое объявление</h3>
                     </button>
                     <div className={cl.mobile_btns}>
                             <button onClick={() => {
-                                dispatch(setNotificationModeAC(!notificationMode))
+                                //@ts-ignore
+                                if(profile?.id) dispatch(setNotificationModeAC(!notificationMode))
+                                else dispatch(setAuthMode(true))
                         }}>
                             <img src="./assets/plus-solid.svg" alt=""/>
                         </button>
