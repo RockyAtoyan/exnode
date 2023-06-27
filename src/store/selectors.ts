@@ -15,3 +15,4 @@ export const getSuccessMessage = (state: StateType) => state.stock.successMessag
 export const getProfile = (state: StateType) => state.stock.profile
 export const getNotificationMode = (state: StateType) => state.stock.notificationMode
 export const getMessageItems = (state:StateType) => state.stock.message
+export const getRegEmailConfirm = (state:StateType) => state.stock.regEmailConfirm

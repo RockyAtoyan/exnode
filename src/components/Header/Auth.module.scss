@@ -1,4 +1,30 @@
-
+.confirm{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  input{
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    color: var(--text-color);
+    border: none;
+    border-bottom: 1px solid var(--select-border-color);
+  }
+  input::placeholder{
+    opacity: .5;
+  }
+  &>button{
+    width: 100%;
+    padding: 20px 0;
+    border-radius: 8px;
+    color: var(--light);
+    font-weight: 600;
+    text-align: center;
+    background: var(--accent-color);
+  }
+}
 
 .modal{
   position: fixed;

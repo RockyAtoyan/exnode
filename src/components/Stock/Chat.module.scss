@@ -23,6 +23,17 @@
     height: 100% !important;
   }
 }
+.message{
+  h2{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    &>*:last-child{
+      font-size: 8px;
+      opacity: .5;
+    }
+  }
+}
 .info{
   position: absolute;
   top: 10px;
@@ -46,6 +57,26 @@
   border-radius: 10px 10px 0 0 ;
   background: var(--light);
 
+}
+
+.messages__btns{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 10px;
+  &>*{
+    flex: 1;
+  }
+  button{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px 0px;
+    border-radius: 10px;
+    background: var(--accent-color);
+    color: var(--light);
+  }
 }
 
 .messages{

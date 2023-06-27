@@ -17,10 +17,16 @@ export const Chat = () => {
     const [chatMode, setChatMode] = useState(false)
 
     const [sendValue, setSendValue] = useState('')
+
+    const [login,setLogin] = useState('')
     
     useEffect(() => {
         if (JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').id) dispatch(getMessage(JSON.parse(localStorage.getItem('exnode-order-chat') + '').id))
     }, [])
+
+    useEffect(() => {
+        //if(chat.length > 0) setLogin(chat[0].user.login)
+    },[chat])
     
 
     useEffect(() => {
@@ -39,26 +45,22 @@ export const Chat = () => {
                 <img src="./assets/plus.svg" alt=""/>
             </button>
             <div className={cl.info}>
-                <h2>JungSangLee</h2>
+                <h2>{login}</h2>
                 <h3>
                     <span>Order: </span>
                     <span>{JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').id}</span>
                 </h3>
             </div>
             <div className={cl.messages}>
-                <button>Оплатить</button>
-                <div className={cl.send}>
-                    <h2>Example</h2>
-                </div>
-                <div className={cl.get}>
-                    <h2>
-                        Example
-                    </h2>
+                <div className={cl.messages__btns}>
+                    <button>Аппеляция</button>
+                    <button>Оплатить</button>
                 </div>
                 {chat?.map((el:any,idx:number) => {
-                    return <div key={el.id} className={cl.get}>
+                    return <div key={el.id} className={cl.get + ' ' + cl.message}>
                         <h2>
-                            {el.text}
+                            <span>{el.text}</span>
+                            {el.timestamp && <span>{timeConverter(el.timestamp)}</span>}
                         </h2>
                     </div>
                 }).reverse()}
@@ -82,4 +84,19 @@ export const Chat = () => {
             </div>
 
     </div>
+}
+
+
+function timeConverter(UNIX_timestamp:any){
+    let a = new Date(UNIX_timestamp * 1000);
+    let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    let year = a.getFullYear();
+    let month = months[a.getMonth()];
+    let date = a.getDate();
+    let hour = a.getHours();
+    let min = a.getMinutes();
+    let sec = a.getSeconds();
+    // let time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+    let time = (hour > 10 ? hour : ('0' + hour )) + ':' + (min > 10 ? min : ('0' + min )) + ':' + (sec > 10 ? sec : ('0' + sec )) ;
+    return time;
 }
