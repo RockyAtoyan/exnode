@@ -81,6 +81,11 @@ export const Notification: FC<{ onClose: any }> = ({ onClose }) => {
                             }}>
                                 <h2>BTC</h2>
                             </div>
+                            <div onClick={() => {
+                                setActiveValue('ETHEREUM')
+                            }}>
+                                <h2>ETHEREUM</h2>
+                            </div>
                         </div>}
                     </div>
                     <img src="./assets/arrow.svg" alt=""/>
@@ -223,7 +228,7 @@ export const Notification: FC<{ onClose: any }> = ({ onClose }) => {
                 <button className={cl.next} disabled={!activeValue || !fiatValue || !availableValue || !minValue || !maxValue || !requisitesValue || paidValue.length < 1} onClick={() => {
                     const payload = {
                         type:mainMode ? 1 : 2,
-                        currency:activeValue === 'USDTTRC' ? 0 : 1,
+                        currency:activeValue === 'USDTTRC' ? 0 : (activeValue === 'BTC' ? 1 : 2),
                         payment_method:paidValue.length === 1 ? paidValue[0] : paidValue,
                         price:priceMode ? ownPrice.toFixed(2) : (+ownPrice * (priceProcent / 100)).toFixed(2),
                         limit:availableValue,

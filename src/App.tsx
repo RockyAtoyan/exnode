@@ -80,6 +80,18 @@ const App = () => {
                                     <Ques />
                                 </>
                             } />
+                            <Route path={'/buy/eth'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
                             <Route path={'/sell/btc'} element={
                                 <>
                                     <Intro/>
@@ -104,6 +116,18 @@ const App = () => {
                                     <Ques />
                                 </>
                             } />
+                                <Route path={'/sell/eth'} element={
+                                    <>
+                                        <Intro/>
+                                        <Stock/>
+                                        <Work />
+                                        <Features />
+                                        <Principles />
+                                        <Links />
+                                        <Ref />
+                                        <Ques />
+                                    </>
+                                } />
                             <Route path={'/buy/usdt/chat'} element={
                                 <>
                                     <Intro/>
@@ -128,6 +152,18 @@ const App = () => {
                                     <Ques />
                                 </>
                             } />
+                            <Route path={'/buy/eth/chat'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
                             <Route path={'/sell/btc/chat'} element={
                                 <>
                                     <Intro/>
@@ -141,6 +177,18 @@ const App = () => {
                                 </>
                             } />
                             <Route path={'/sell/usdt/chat'} element={
+                                <>
+                                    <Intro/>
+                                    <Stock/>
+                                    <Work />
+                                    <Features />
+                                    <Principles />
+                                    <Links />
+                                    <Ref />
+                                    <Ques />
+                                </>
+                            } />
+                            <Route path={'/sell/eth/chat'} element={
                                 <>
                                     <Intro/>
                                     <Stock/>

@@ -91,7 +91,7 @@ export const Stock = React.memo(() => {
     
 
     useEffect(() => {
-        dispatch(getOffersItems(toggle === 'buy' ? 1 : 2,moneyToggle === 'usdt' ? 0 : 1))
+        dispatch(getOffersItems(toggle === 'buy' ? 1 : 2,moneyToggle === 'usdt' ? 0 : (moneyToggle === 'btc' ? 1 : 2)))
     },[toggle,moneyToggle])
 
 
@@ -142,6 +142,9 @@ export const Stock = React.memo(() => {
                         <h2 className={moneyToggle === 'btc' ? cl.active : ''} onClick={() => {
                             setMoneyToggle('btc')
                         }}>BTC</h2>
+                        <h2 className={moneyToggle === 'eth' ? cl.active : ''} onClick={() => {
+                            setMoneyToggle('eth')
+                        }}>ETH</h2>
                     </div>
 
                 </div>

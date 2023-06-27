@@ -48,7 +48,7 @@ export const StockItem = ({ item, type, paidTypes }) => {
                         <h2>Цена</h2>
                         <div>
                             <h2>{item.price}</h2>
-                            <h3>{item.currency === 0 ? 'USDT' : 'BTC'}</h3>
+                            <h3>{item.currency === 0 ? 'USDT' : (item.currency === 1 ? 'BTC' : 'ETH')}</h3>
                         </div>
                     </div>
                     <div className={cl.sell_item}>
@@ -178,7 +178,7 @@ export const StockItem = ({ item, type, paidTypes }) => {
                 </div>
                 <div className={cl.item_price}>
                     <h2>{item.price}</h2>
-                    <h3>{item.currency === 0 ? 'USDT' : 'BTC'}</h3>
+                    <h3>{item.currency === 0 ? 'USDT' : (item.currency === 1 ? 'BTC' : 'ETH')}</h3>
                 </div>
                 <div className={cl.item_limit}>
                     <div>
