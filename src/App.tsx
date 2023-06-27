@@ -19,11 +19,10 @@ import { getProfile } from "./store/profileReduces";
 import { getToken } from "./utils/api";
 
 const App = () => {
-    const dispatch = useDispatch()
+    const dispatch:any = useDispatch()
 
     useEffect(() => {
         if(getToken()) {
-            // @ts-ignore
             dispatch(getProfile())
         }
     },[]) 

@@ -17,3 +17,4 @@ export const getNotificationMode = (state: StateType) => state.stock.notificatio
 export const getMessageItems = (state:StateType) => state.stock.message
 export const getRegEmailConfirm = (state:StateType) => state.stock.regEmailConfirm
 export const getFetching = (state:StateType) => state.stock.fetching
+export const selectUser = (state:StateType) => state.profile.user

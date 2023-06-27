@@ -5,11 +5,12 @@ import {generate} from "@wcj/generate-password";
 import {signValidatePassword, validateEmail} from "../Header/Auth";
 import {toast, ToastContainer} from "react-toastify";
 import {useSelector} from "react-redux";
-import {getThemeMode} from "../../store/selectors";
+import {getThemeMode, selectUser} from "../../store/selectors";
 
 export const Profile = () => {
 
     const theme = useSelector(getThemeMode)
+    const profile = useSelector(selectUser)
 
     const [changeMode,setChangeMode] = useState(false)
 
@@ -46,20 +47,42 @@ export const Profile = () => {
                             <img src="./assets/user.png" alt=""/>
                         </div>
                         <div>
-                            <h1>withered-leaf</h1>
-                            <h2>atoyanrobert21@gmail.com</h2>
+                            <h1>{profile?.login}</h1>
+                            {/*<h2>atoyanrobert21@gmail.com</h2>*/}
                         </div>
                     </div>
                     <div className={cl.balance}>
                         <h3>Общий баланс</h3>
-                        <h2>
-                            <span>≈ 0.00</span>
-                            <span>USDT</span>
-                        </h2>
-                        <h3>
-                            <span>Доступно:</span>
-                            <span>0.00 USDT</span>
-                        </h3>
+                        <div>
+                            <h2>
+                                <span>≈ {profile?.balance_usdt}</span>
+                                <span>USDT</span>
+                            </h2>
+                            <h3>
+                                <span>Доступно:</span>
+                                <span>{profile?.balance_usdt} USDT</span>
+                            </h3>
+                        </div>
+                        <div>
+                            <h2>
+                                <span>≈ {profile?.balance_btc}</span>
+                                <span>BTC</span>
+                            </h2>
+                            <h3>
+                                <span>Доступно:</span>
+                                <span>{profile?.balance_btc} BTC</span>
+                            </h3>
+                        </div>
+                        <div>
+                            <h2>
+                                <span>≈ {profile?.balance_eth}</span>
+                                <span>ETH</span>
+                            </h2>
+                            <h3>
+                                <span>Доступно:</span>
+                                <span>{profile?.balance_eth} ETH</span>
+                            </h3>
+                        </div>
                     </div>
                 </div>
                 <div className={cl.change}>

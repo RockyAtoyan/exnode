@@ -90,6 +90,4 @@ export const sendEmailCode = (body) => (dispatch) => {
 // Action creators are generated for each case reducer function
 export const { increment, decrement, incrementByAmount, setUser } = counterSlice.actions
 
-export const selectUser = (state) => state.user
-
 export default counterSlice.reducer

@@ -4,11 +4,10 @@ import Popup from "reactjs-popup";
 import {FC, useRef, useState} from "react";
 import {ThemeContext, themes} from '../Theme/ThemeContext';
 import {useDispatch, useSelector} from "react-redux";
-import {getAuthMode, getProfile, getThemeMode} from "../../store/selectors";
+import {getAuthMode, getProfile, getThemeMode, selectUser} from "../../store/selectors";
 import {Auth} from "./Auth";
 import { setAuthMode } from '../../store/stockReducer';
 import { useNavigate } from 'react-router-dom';
-import { selectUser } from "../../store/profileReduces";
 
 const LiItem:FC<{trigger:any,el:any}> = ({trigger,el}) => {
     const [mode,setMode] = useState(false)
@@ -183,10 +182,14 @@ export const Header = () => {
                                 </button>
                             </div>
                         <button className={cl.login} onClick={() => {
-                            if (!profile) dispatch(setAuthMode(!authMode))
+                            // @ts-ignore
+                            if (!profile?.id) dispatch(setAuthMode(!authMode))
                             else navigate('/profile')
                             }}>
-                                {profile ? 'Профиль' : 'Войти'}
+                                {(() => {
+                                    // @ts-ignore
+                                    return profile?.id ? 'Профиль' : 'Войти'
+                                })()}
                             </button>
                         </div>
                         <div className={cl.burger} ref={burger} onClick={() => {
