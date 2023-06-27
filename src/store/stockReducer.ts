@@ -173,7 +173,8 @@ export const getMessage = (type: any): ThunkType => (dispatch) => {
 
 export const createMessage = (body:any): ThunkType => (dispatch) => {
     return api(`/api/message/create`, 'POST',body).then((data) => {
+        debugger
         dispatch(setMessageItems(data.data))
-        dispatch(getMessage(body.id))
+        dispatch(getMessage(body.order_id))
      });
 } 

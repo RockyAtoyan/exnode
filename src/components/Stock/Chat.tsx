@@ -42,7 +42,7 @@ export const Chat = () => {
                 <h2>JungSangLee</h2>
                 <h3>
                     <span>Order: </span>
-                    <span>1</span>
+                    <span>{JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').id}</span>
                 </h3>
             </div>
             <div className={cl.messages}>
@@ -56,23 +56,27 @@ export const Chat = () => {
                     </h2>
                 </div>
                 {chat?.map((el:any,idx:number) => {
-                    return <div key={idx} className={cl.get}>
+                    return <div key={el.id} className={cl.get}>
                         <h2>
-                            {el}
+                            {el.text}
                         </h2>
                     </div>
-                })}
+                }).reverse()}
 
             </div>
             <div className={cl.textarea}>
                 <input type={'text'} value={sendValue} onChange={(event) => {setSendValue(event.currentTarget.value)}} placeholder={'Ваше сообщение'}/>
             <button onClick={() => {
+                    debugger
                     const id = JSON.parse(localStorage.getItem('exnode-order-chat') + '').id
-                if(sendValue) dispatch(createMessage({
-                    order_id: id,
-                    text:sendValue
-                    }))
-                }}>
+                    if(sendValue && id) {
+                        dispatch(createMessage({
+                            order_id: id,
+                            text: sendValue
+                        }))
+                        setSendValue('')
+                    }
+                    }}>
                     <img src="./assets/send.png" alt=""/>
                 </button>
             </div>

@@ -110,7 +110,10 @@ export const Auth: FC<{ on: any }> = ({ on }) => {
                     initialValues={{ email: '',password:''}}
                     onSubmit={(values, actions) => {
                         console.log(values)
-                        dispatch(login(values));
+                        dispatch(login({
+                            email:values.email,
+                            password:values.password
+                        }));
                         actions.setSubmitting(false);
                     }}
                 >

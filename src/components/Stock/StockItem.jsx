@@ -144,13 +144,11 @@ export const StockItem = ({ item, type, paidTypes }) => {
                                 offer_id: item.id,
                                 sum:inputValue
                             }))
-                            dispatch(getMessage(item.id))
-                             if(!(location.pathname.split('/').slice(-1)[0] === 'chat')) navigate('/' + location.pathname.slice(1) + '/chat')
+                            if(!(location.pathname.split('/').slice(-1)[0] === 'chat')) navigate('/' + location.pathname.slice(1) + '/chat')
                             if (!localStorage.getItem('exnode-order-chat')) localStorage.setItem('exnode-order-chat', JSON.stringify({
                                 id: item.id,
                                 mode:true
                             }))
-   
                         }}>Купить USDT</button>
                     </div>
                 </div>
