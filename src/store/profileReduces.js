@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { api, setToken } from '../utils/api';
-import {setErrorMessage, setRegMode, setAuthMode, setProfileAC, setRegEmailConfirm} from './stockReducer';
+import {
+    setErrorMessage,
+    setRegMode,
+    setAuthMode,
+    setProfileAC,
+    setSuccessMessage,
+    setRegEmailConfirm
+} from './stockReducer';
 
 export const counterSlice = createSlice({
     name: 'profile',
@@ -52,6 +59,20 @@ export const signIn = (body) => (dispatch) => {
     });
 }
 
+
+export const sendEmailCode = (body) => (dispatch) => {
+    dispatch(setSuccessMessage(false))
+    dispatch(setErrorMessage(false))
+    api('/api/user/code', 'POST', body).then((r) => {
+        if (r.success) {
+            dispatch(setRegMode(false))
+            dispatch(setSuccessMessage(true))
+        }
+        else {
+            dispatch(setErrorMessage(true))
+        }
+    });
+}
 // Action creators are generated for each case reducer function
 export const { increment, decrement, incrementByAmount } = counterSlice.actions
 
