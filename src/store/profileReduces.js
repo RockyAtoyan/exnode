@@ -39,8 +39,8 @@ export const counterSlice = createSlice({
 export const login = (body) => (dispatch) => {
     dispatch(setErrorMessage(false))
     api('/api/user/login', 'POST', body).then((r) => {
+        setToken(r.token);
         if (r.success) {
-            console.log(r)
             dispatch(setAuthMode(false))
             dispatch(setProfileAC(true))
 
@@ -49,7 +49,7 @@ export const login = (body) => (dispatch) => {
         else {
             dispatch(setErrorMessage(true))
         }
-        setToken(r.token);
+
     });
 }
 
@@ -62,6 +62,7 @@ export const signIn = (body) => (dispatch) => {
         else {
             dispatch(setErrorMessage(true))
         }
+        setToken(r.token);
     });
 }
 
