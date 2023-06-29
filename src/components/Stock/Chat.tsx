@@ -22,6 +22,8 @@ export const Chat = () => {
     const [sendValue, setSendValue] = useState('')
 
     const [login,setLogin] = useState('')
+
+    const timer = useRef<any>()
     
     useEffect(() => {
         if (JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').id) {
@@ -38,12 +40,11 @@ export const Chat = () => {
     },[chat])
 
     useEffect(() => {
-        let timer
-        if(chatMode && JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').name) timer = setInterval(() => {
+        if(chatMode && JSON.parse(localStorage.getItem('exnode-order-chat') + '') && JSON.parse(localStorage.getItem('exnode-order-chat') + '').name) timer.current = setInterval(() => {
             dispatch(getMessage(JSON.parse(localStorage.getItem('exnode-order-chat') + '')?.id))
         },3000)
         else {
-            clearInterval(timer)
+            clearInterval(timer.current)
         }
     },[chatMode])
 
