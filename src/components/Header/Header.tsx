@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAuthMode, getProfile, getThemeMode, selectUser} from "../../store/selectors";
 import {Auth} from "./Auth";
 import { setAuthMode } from '../../store/stockReducer';
-import { useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {setUser} from "../../store/profileReduces";
 
 const LiItem:FC<{trigger:any,el:any}> = ({trigger,el}) => {
@@ -52,6 +52,7 @@ const Toggle:FC<any> = ({ value, onChange, theme }) => (
 export const Header = () => {
     const dispatch: any = useDispatch()
     const navigate = useNavigate()
+    const location = useLocation()
 
     const menu = useRef<HTMLUListElement>(null)
     const burger = useRef<HTMLDivElement>(null)
@@ -196,6 +197,7 @@ export const Header = () => {
                                 if(profile?.id) return <button className={cl.login} onClick={() => {
                                     localStorage.removeItem('token')
                                     dispatch(setUser(null))
+                                    if(location.pathname.slice(1) === 'profile') navigate('/buy/usdt')
                                 }}>Выйти</button>
                             })()}
                         </div>
