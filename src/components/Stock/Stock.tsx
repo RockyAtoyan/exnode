@@ -271,8 +271,8 @@ export const Stock = React.memo(() => {
                                     return <div key={idx} className={cl.paid_item + (filterValue === idx ? (' ' + cl.active) : '')} onClick={() => {
                                         setFilterValue(idx)
                                     }}>
-                                        <h3>{el}</h3>
                                         <span style={filterValue === idx ? {background:'#64cb8c'} : {}}></span>
+                                        <h3>{el}</h3>
                                     </div>
                                 })}
                             </div>

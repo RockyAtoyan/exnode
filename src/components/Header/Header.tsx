@@ -177,9 +177,9 @@ export const Header = () => {
                                         />
                                     )}
                                 </ThemeContext.Consumer>
-                                <button onClick={() => setModalMode(prevState => !prevState)}>
-                                    <img src={`./assets/language${theme ? '' : '-light'}.svg`} alt=""/>
-                                </button>
+                                {/*<button onClick={() => setModalMode(prevState => !prevState)}>*/}
+                                {/*    <img src={`./assets/language${theme ? '' : '-light'}.svg`} alt=""/>*/}
+                                {/*</button>*/}
                             </div>
                         <button className={cl.login} onClick={() => {
                             // @ts-ignore
