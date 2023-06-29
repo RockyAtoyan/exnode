@@ -84,34 +84,34 @@ export const Header = () => {
                                     [
                                         <li>
                                             <img src="./assets/links/monitoring-light.svg" alt=""/>
-                                            <a href="https://exnode.ru/">
+                                            <a href="">
                                                 <span>Мониторинг обменников</span>
                                                 <span></span>
                                             </a>
                                         </li>,
                                         <li>
                                             <img src="./assets/links/swap-light.svg" alt=""/>
-                                            <a href="https://dex.exnode.ru/swap/">SWAP</a>
+                                            <a href="">SWAP</a>
                                         </li>,
                                         <li>
                                             <img src="./assets/links/cash-light.svg" alt=""/>
-                                            <a href="./">Наличный обмен</a>
+                                            <a href="">Наличный обмен</a>
                                         </li>,
                                         <li>
                                             <img src="./assets/links/p2p-light.svg" alt=""/>
-                                            <a href="https://exnode.ru/exchange/tether_trc20_usdt-usdttrc-to-nalichnye_usd-cashusd/">P2P-торговля</a>
+                                            <a href="http://www.dcx-p2p.com">P2P-торговля</a>
                                         </li>
                                     ]
                                 } />
                             </li>
                             <li className={cl.tm}>
-                                <a href="https://p2p.exnode.ru/orders/buy/usdt">P2P-торговля</a>
+                                <a href="http://www.dcx-p2p.com">P2P-торговля</a>
                             </li>
                             <li >
-                                <a href="https://dex.exnode.ru/">DeFi</a>
+                                <a href="">DeFi</a>
                             </li>
                             <li>
-                                <a href="https://api.exnode.ru/">Процессинг</a>
+                                <a href="">Процессинг</a>
                             </li>
                             <li>
                                 <LiItem trigger={
@@ -123,15 +123,15 @@ export const Header = () => {
                                     [
                                         <li>
                                             <img src="./assets/links/news-light.svg" alt=""/>
-                                            <a href="https://exnode.ru/news/">Новости</a>
+                                            <a href="">Новости</a>
                                         </li>,
                                         <li>
                                             <img src="./assets/links/invest-light.svg" alt=""/>
-                                            <a href="https://exnode.ru/articles/categories/investitsii/">Инвестиции</a>
+                                            <a href="">Инвестиции</a>
                                         </li>,
                                         <li>
                                             <img src="./assets/links/mining-light.svg" alt=""/>
-                                            <a href="https://exnode.ru/articles/categories/zarabotok/">Майнинг</a>
+                                            <a href="">Майнинг</a>
                                         </li>
                                     ]
                                 } />
@@ -146,15 +146,15 @@ export const Header = () => {
                                     [
                                         <li>
                                             <img src="./assets/links/faq-light.svg" alt=""/>
-                                            <a href="https://exnode.ru/faq/">FAQ</a>
+                                            <a href="">FAQ</a>
                                         </li>,
                                         <li>
                                             <img src="./assets/links/contacts-light.svg" alt=""/>
-                                            <a href="https://exnode.ru/help/">Помощь</a>
+                                            <a href="">Помощь</a>
                                         </li>,
                                         <li>
                                             <img src="./assets/links/help-light.svg" alt=""/>
-                                            <a href="https://exnode.ru/contacts/">Контакты</a>
+                                            <a href="">Контакты</a>
                                         </li>,
                                     ]
                                 } />

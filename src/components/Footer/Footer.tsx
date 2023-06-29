@@ -41,22 +41,22 @@ export const Footer = () => {
                     <div className={cl.item}>
                         <h2>Продукты</h2>
                         <div className={cl.item_links}>
-                            <a target={'_blank'} href="https://exnode.ru/">
+                            <a target={'_blank'} href="">
                                 <span>Мониторинг</span>
                             </a>
-                            <a target={'_blank'} href="https://p2p.exnode.ru/">
+                            <a target={'_blank'} href="http://www.dcx-p2p.com">
                                 <span>P2P-торговля</span>
                             </a>
-                            <a target={'_blank'} href="https://dex.exnode.ru/">
+                            <a target={'_blank'} href="">
                                 <span>DeFi</span>
                             </a>
-                            <a target={'_blank'} href="https://api.exnode.ru/">
+                            <a target={'_blank'} href="">
                                 <span>Процессинг</span>
                             </a>
-                            <a target={'_blank'} href="https://exnode.ru/trading/">
+                            <a target={'_blank'} href="">
                                 <span>Криптовалюта</span>
                             </a>
-                            <a target={'_blank'} href="https://exnode.ru/exchangers/">
+                            <a target={'_blank'} href="">
                                 <span>Обменники</span>
                             </a>
 
@@ -65,19 +65,19 @@ export const Footer = () => {
                     <div className={cl.item}>
                         <h2>Поддержка</h2>
                         <div className={cl.item_links}>
-                            <a target={'_blank'} href="https://exnode.ru/contacts/">
+                            <a target={'_blank'} href="">
                                 <span>Контакты</span>
                             </a>
-                            <a target={'_blank'} href="https://p2p.exnode.ru/privacy">
+                            <a target={'_blank'} href="">
                                 <span>Политика конфиденциальности</span>
                             </a>
-                            <a target={'_blank'} href="https://p2p.exnode.ru/terms-of-agreement">
+                            <a target={'_blank'} href="">
                                 <span>Условия соглашения</span>
                             </a>
-                            <a target={'_blank'} href="https://p2p.exnode.ru/help">
+                            <a target={'_blank'} href="">
                                 <span>Руководство по торговле</span>
                             </a>
-                            <a target={'_blank'} href="https://p2p.exnode.ru/rules">
+                            <a target={'_blank'} href="">
                                 <span>Правила торговли</span>
                             </a>
 
@@ -104,10 +104,10 @@ export const Footer = () => {
                     <div className={cl.item}>
                         <h2>Торговля</h2>
                         <div className={cl.item_links}>
-                            <a href="https://p2p.exnode.ru/orders/buy/usdt" target={'_blank'}>
+                            <a href="http://www.dcx-p2p.com/#/buy/usdt" target={'_blank'}>
                                 <span>Купить USDT</span>
                             </a>
-                            <a href="https://p2p.exnode.ru/orders/sell/usdt" target={'_blank'}>
+                            <a href="http://www.dcx-p2p.com/#/sell/usdt" target={'_blank'}>
                                 <span>Продать USDT</span>
                             </a>
                         </div>
